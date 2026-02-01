@@ -1,0 +1,6 @@
+---
+description: React conventions
+globs: ["**/*.jsx", "**/*.tsx"]
+---
+No React.FC usage. Your component's first line should look like this: const Test = ({data}:Props) => {...}
+Use setState(state+1) by default. Use setState((ref)⇒ ref+1) only when you need to override React’s default batching behaviour.
