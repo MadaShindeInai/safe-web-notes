@@ -1,0 +1,18 @@
+---
+description: Tailwind CSS conventions
+globs: ["**/*.jsx", "**/*.tsx"]
+---
+**`*cn`* function should be used only in a case you are merging styles**:
+className=’mr-4 pb-6’ ✅
+
+className={cn(’mr-4 pb-6’)} ❌
+
+**“Base” styles should be declared first, overriding - last:**
+
+className={cn(’mr-4 pb-6’, props.className)} ✅
+
+className={cn(props.className, ’mr-4 pb-6’ )} ❌
+
+**Conditional classes should be declared this way:**
+
+className={cn(’mr-4 pb-6’, {’border-5’: isBorderVisible})} ✅
