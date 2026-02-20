@@ -2,6 +2,8 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Footer } from "./ui/footer";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -16,9 +18,14 @@ const geist = Geist({
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <html lang="en" className={geist.variable}>
-      <body>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={geist.variable}>
+        <body className="flex min-h-screen flex-col items-center justify-center">
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 };
 

@@ -18,7 +18,7 @@
       "pnpm install completes without errors",
       "ClerkProvider can be imported from @clerk/nextjs without errors"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
