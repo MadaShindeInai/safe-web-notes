@@ -62,7 +62,7 @@
       "src/env.js validates the AI provider API key (e.g. OPENAI_API_KEY)",
       "App fails to start if any required env var is missing"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",

@@ -5,4 +5,10 @@ All three reference User.id as a FK. FoodEntry has @@unique([userId, date, mealT
 AiAnalysis has @unique on userId (one record per user). All models have @@index([userId]).
 Migration 20260220144005_add_schedule_food_ai_models applied successfully to Postgres.
 
-Next priority: env variable validation (add CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, OPENAI_API_KEY to src/env.js), then shadcn/ui setup.
+2026-02-20 — Env variable validation added
+
+Updated src/env.js: server validates CLERK_SECRET_KEY, OPENAI_API_KEY, DATABASE_URL;
+client validates NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and all NEXT_PUBLIC_CLERK_*_URL vars.
+Updated .env.example with all required variable names and placeholder values.
+
+Next priority: shadcn/ui setup (accordion, button, card, toast/sonner, input, textarea, carousel).
