@@ -166,12 +166,18 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  scheduleEntries?: Prisma.ScheduleEntryListRelationFilter
+  foodEntries?: Prisma.FoodEntryListRelationFilter
+  aiAnalysis?: Prisma.XOR<Prisma.AiAnalysisNullableScalarRelationFilter, Prisma.AiAnalysisWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduleEntries?: Prisma.ScheduleEntryOrderByRelationAggregateInput
+  foodEntries?: Prisma.FoodEntryOrderByRelationAggregateInput
+  aiAnalysis?: Prisma.AiAnalysisOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -181,6 +187,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  scheduleEntries?: Prisma.ScheduleEntryListRelationFilter
+  foodEntries?: Prisma.FoodEntryListRelationFilter
+  aiAnalysis?: Prisma.XOR<Prisma.AiAnalysisNullableScalarRelationFilter, Prisma.AiAnalysisWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -202,31 +211,43 @@ export type UserScalarWhereWithAggregatesInput = {
 }
 
 export type UserCreateInput = {
-  id?: string
+  id: string
   email: string
   name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
+  foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
-  id?: string
+  id: string
   email: string
   name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
+  foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
+  foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
+  foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
-  id?: string
+  id: string
   email: string
   name?: string | null
 }
@@ -261,6 +282,11 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
 }
 
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -269,12 +295,240 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type UserCreateNestedOneWithoutScheduleEntriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleEntriesInput, Prisma.UserUncheckedCreateWithoutScheduleEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleEntriesInput, Prisma.UserUncheckedCreateWithoutScheduleEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleEntriesInput
+  upsert?: Prisma.UserUpsertWithoutScheduleEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleEntriesInput, Prisma.UserUpdateWithoutScheduleEntriesInput>, Prisma.UserUncheckedUpdateWithoutScheduleEntriesInput>
+}
+
+export type UserCreateNestedOneWithoutFoodEntriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoodEntriesInput, Prisma.UserUncheckedCreateWithoutFoodEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoodEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFoodEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoodEntriesInput, Prisma.UserUncheckedCreateWithoutFoodEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoodEntriesInput
+  upsert?: Prisma.UserUpsertWithoutFoodEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFoodEntriesInput, Prisma.UserUpdateWithoutFoodEntriesInput>, Prisma.UserUncheckedUpdateWithoutFoodEntriesInput>
+}
+
+export type UserCreateNestedOneWithoutAiAnalysisInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiAnalysisInput, Prisma.UserUncheckedCreateWithoutAiAnalysisInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiAnalysisInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAiAnalysisNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiAnalysisInput, Prisma.UserUncheckedCreateWithoutAiAnalysisInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiAnalysisInput
+  upsert?: Prisma.UserUpsertWithoutAiAnalysisInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAiAnalysisInput, Prisma.UserUpdateWithoutAiAnalysisInput>, Prisma.UserUncheckedUpdateWithoutAiAnalysisInput>
+}
+
+export type UserCreateWithoutScheduleEntriesInput = {
+  id: string
+  email: string
+  name?: string | null
+  foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutScheduleEntriesInput = {
+  id: string
+  email: string
+  name?: string | null
+  foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutScheduleEntriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleEntriesInput, Prisma.UserUncheckedCreateWithoutScheduleEntriesInput>
+}
+
+export type UserUpsertWithoutScheduleEntriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleEntriesInput, Prisma.UserUncheckedUpdateWithoutScheduleEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleEntriesInput, Prisma.UserUncheckedCreateWithoutScheduleEntriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleEntriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleEntriesInput, Prisma.UserUncheckedUpdateWithoutScheduleEntriesInput>
+}
+
+export type UserUpdateWithoutScheduleEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFoodEntriesInput = {
+  id: string
+  email: string
+  name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFoodEntriesInput = {
+  id: string
+  email: string
+  name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFoodEntriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoodEntriesInput, Prisma.UserUncheckedCreateWithoutFoodEntriesInput>
+}
+
+export type UserUpsertWithoutFoodEntriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFoodEntriesInput, Prisma.UserUncheckedUpdateWithoutFoodEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoodEntriesInput, Prisma.UserUncheckedCreateWithoutFoodEntriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFoodEntriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFoodEntriesInput, Prisma.UserUncheckedUpdateWithoutFoodEntriesInput>
+}
+
+export type UserUpdateWithoutFoodEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFoodEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
+  aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAiAnalysisInput = {
+  id: string
+  email: string
+  name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
+  foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAiAnalysisInput = {
+  id: string
+  email: string
+  name?: string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
+  foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAiAnalysisInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiAnalysisInput, Prisma.UserUncheckedCreateWithoutAiAnalysisInput>
+}
+
+export type UserUpsertWithoutAiAnalysisInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAiAnalysisInput, Prisma.UserUncheckedUpdateWithoutAiAnalysisInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiAnalysisInput, Prisma.UserUncheckedCreateWithoutAiAnalysisInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAiAnalysisInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAiAnalysisInput, Prisma.UserUncheckedUpdateWithoutAiAnalysisInput>
+}
+
+export type UserUpdateWithoutAiAnalysisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
+  foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAiAnalysisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
+  foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
+}
+
+
+/**
+ * Count Type UserCountOutputType
+ */
+
+export type UserCountOutputType = {
+  scheduleEntries: number
+  foodEntries: number
+}
+
+export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  scheduleEntries?: boolean | UserCountOutputTypeCountScheduleEntriesArgs
+  foodEntries?: boolean | UserCountOutputTypeCountFoodEntriesArgs
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCountOutputType
+   */
+  select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleEntryWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFoodEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FoodEntryWhereInput
+}
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   name?: boolean
+  scheduleEntries?: boolean | Prisma.User$scheduleEntriesArgs<ExtArgs>
+  foodEntries?: boolean | Prisma.User$foodEntriesArgs<ExtArgs>
+  aiAnalysis?: boolean | Prisma.User$aiAnalysisArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -296,10 +550,22 @@ export type UserSelectScalar = {
 }
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name", ExtArgs["result"]["user"]>
+export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  scheduleEntries?: boolean | Prisma.User$scheduleEntriesArgs<ExtArgs>
+  foodEntries?: boolean | Prisma.User$foodEntriesArgs<ExtArgs>
+  aiAnalysis?: boolean | Prisma.User$aiAnalysisArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
-  objects: {}
+  objects: {
+    scheduleEntries: Prisma.$ScheduleEntryPayload<ExtArgs>[]
+    foodEntries: Prisma.$FoodEntryPayload<ExtArgs>[]
+    aiAnalysis: Prisma.$AiAnalysisPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
@@ -698,6 +964,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  scheduleEntries<T extends Prisma.User$scheduleEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  foodEntries<T extends Prisma.User$foodEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foodEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiAnalysis<T extends Prisma.User$aiAnalysisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiAnalysisArgs<ExtArgs>>): Prisma.Prisma__AiAnalysisClient<runtime.Types.Result.GetResult<Prisma.$AiAnalysisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -747,6 +1016,10 @@ export type UserFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -765,6 +1038,10 @@ export type UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -782,6 +1059,10 @@ export type UserFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which User to fetch.
    */
@@ -831,6 +1112,10 @@ export type UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where?: Prisma.UserWhereInput
@@ -879,6 +1164,10 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which Users to fetch.
    */
   where?: Prisma.UserWhereInput
@@ -921,6 +1210,10 @@ export type UserCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The data needed to create a User.
    */
@@ -969,6 +1262,10 @@ export type UserUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The data needed to update a User.
    */
@@ -1036,6 +1333,10 @@ export type UserUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The filter to search for the User to update in case it exists.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1062,6 +1363,10 @@ export type UserDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter which User to delete.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1082,6 +1387,73 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.scheduleEntries
+ */
+export type User$scheduleEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleEntry
+   */
+  select?: Prisma.ScheduleEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleEntry
+   */
+  omit?: Prisma.ScheduleEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleEntryInclude<ExtArgs> | null
+  where?: Prisma.ScheduleEntryWhereInput
+  orderBy?: Prisma.ScheduleEntryOrderByWithRelationInput | Prisma.ScheduleEntryOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleEntryScalarFieldEnum | Prisma.ScheduleEntryScalarFieldEnum[]
+}
+
+/**
+ * User.foodEntries
+ */
+export type User$foodEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FoodEntry
+   */
+  select?: Prisma.FoodEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FoodEntry
+   */
+  omit?: Prisma.FoodEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoodEntryInclude<ExtArgs> | null
+  where?: Prisma.FoodEntryWhereInput
+  orderBy?: Prisma.FoodEntryOrderByWithRelationInput | Prisma.FoodEntryOrderByWithRelationInput[]
+  cursor?: Prisma.FoodEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FoodEntryScalarFieldEnum | Prisma.FoodEntryScalarFieldEnum[]
+}
+
+/**
+ * User.aiAnalysis
+ */
+export type User$aiAnalysisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiAnalysis
+   */
+  select?: Prisma.AiAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiAnalysis
+   */
+  omit?: Prisma.AiAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiAnalysisInclude<ExtArgs> | null
+  where?: Prisma.AiAnalysisWhereInput
+}
+
+/**
  * User without action
  */
 export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1093,4 +1465,8 @@ export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
 }
