@@ -8,7 +8,7 @@
       "npx prisma --version outputs a valid version",
       "prisma/schema.prisma exists with PostgreSQL datasource configured"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
@@ -69,30 +69,30 @@
     "description": "Define ScheduleEntry Prisma model",
     "steps": [
       "ScheduleEntry model exists in prisma/schema.prisma",
-      "Fields: id (String, cuid, @id), userId (String), weekday (Int), startTime (String), endTime (String), activity (String), createdAt (DateTime, @default(now()))",
+      "Fields: id (String, cuid, @id), userId (references User.id), weekday (Int), startTime (String), endTime (String), activity (String), createdAt (DateTime, @default(now()))",
       "Model has an index on userId for efficient querying"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",
     "description": "Define FoodEntry Prisma model",
     "steps": [
       "FoodEntry model exists in prisma/schema.prisma",
-      "Fields: id (String, cuid, @id), userId (String), date (DateTime), mealType (String), description (String), feelings (String, optional/nullable), createdAt (DateTime, @default(now()))",
+      "Fields: id (String, cuid, @id), userId (references User.id), date (DateTime), mealType (String), description (String), feelings (String, optional/nullable), createdAt (DateTime, @default(now()))",
       "Model has an index on userId for efficient querying"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",
     "description": "Define AiAnalysis Prisma model",
     "steps": [
       "AiAnalysis model exists in prisma/schema.prisma",
-      "Fields: id (String, cuid, @id), userId (String, @unique), recommended (Json), notRecommended (Json), avoidProducts (Json), lastEntryDate (DateTime), createdAt (DateTime, @default(now())), updatedAt (DateTime, @updatedAt)",
+      "Fields: id (String, cuid, @id), userId (references User.id), recommended (Json), notRecommended (Json), avoidProducts (Json), lastEntryDate (DateTime), createdAt (DateTime, @default(now())), updatedAt (DateTime, @updatedAt)",
       "Only one AiAnalysis record per user is enforced by @unique on userId"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",
@@ -101,7 +101,7 @@
       "prisma/schema.prisma has @@unique([userId, date, mealType]) on FoodEntry",
       "Attempting to insert a duplicate userId + date + mealType combination throws a Prisma unique constraint error"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "database",
@@ -112,7 +112,7 @@
       "ScheduleEntry, FoodEntry, and AiAnalysis tables exist in the PostgreSQL database",
       "npx prisma db push or prisma migrate deploy completes without errors"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "auth",
@@ -123,7 +123,7 @@
       "No email/password or other sign-in options are available to users",
       "Google sign-in button appears on the Clerk sign-in page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "auth",
@@ -133,7 +133,7 @@
       "Middleware matcher covers all app routes",
       "Requesting any app route without a session returns a redirect response"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "auth",
@@ -179,7 +179,7 @@
   },
   {
     "category": "layout",
-    "description": "Fixed bottom tab bar with 4 navigation items",
+    "description": "Sticky bottom tab bar with 4 navigation items",
     "steps": [
       "A bottom tab bar is fixed to the bottom of the viewport",
       "Tab bar has exactly 4 items: Schedule, Food Diary, AI Overview, Settings",

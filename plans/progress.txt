@@ -1,0 +1,8 @@
+2026-02-20 — Database schema models added
+
+Added ScheduleEntry, FoodEntry, AiAnalysis models to prisma/schema.prisma.
+All three reference User.id as a FK. FoodEntry has @@unique([userId, date, mealType]).
+AiAnalysis has @unique on userId (one record per user). All models have @@index([userId]).
+Migration 20260220144005_add_schedule_food_ai_models applied successfully to Postgres.
+
+Next priority: env variable validation (add CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, OPENAI_API_KEY to src/env.js), then shadcn/ui setup.
