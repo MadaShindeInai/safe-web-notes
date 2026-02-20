@@ -6,7 +6,7 @@ Use kebab-case for file names. Use PascalCase for component names. Use camelCase
 
 Export variables or functions only if they are used outside of the file.
 Functions expressions preferred with arrow function syntax.
-No default exports apart except in situations where it is mandatory. Use named exports/imports
+No default exports apart from situations where it is mandatory. Use named exports/imports
 No barrel files.
 One utility function per file.
 
