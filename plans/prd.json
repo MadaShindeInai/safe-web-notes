@@ -1,0 +1,795 @@
+[
+  {
+    "category": "setup",
+    "description": "Install Prisma ORM with PostgreSQL adapter",
+    "steps": [
+      "prisma and @prisma/client are listed in package.json",
+      "pnpm install completes without errors",
+      "npx prisma --version outputs a valid version",
+      "prisma/schema.prisma exists with PostgreSQL datasource configured"
+    ],
+    "passes": false
+  },
+  {
+    "category": "setup",
+    "description": "Install Clerk authentication SDK",
+    "steps": [
+      "@clerk/nextjs is listed in package.json",
+      "pnpm install completes without errors",
+      "ClerkProvider can be imported from @clerk/nextjs without errors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "setup",
+    "description": "Initialize shadcn/ui with required components",
+    "steps": [
+      "shadcn init has been run (components.json exists at project root)",
+      "Tailwind CSS 4 integration is configured correctly",
+      "At least the following shadcn components are installed: accordion, button, card, toast/sonner, input, textarea",
+      "All installed components render without import errors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "setup",
+    "description": "Install Embla Carousel via shadcn carousel component",
+    "steps": [
+      "shadcn carousel component is installed",
+      "embla-carousel-react is listed in package.json",
+      "Carousel, CarouselContent, CarouselItem can be imported without errors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "setup",
+    "description": "Install Vercel AI SDK",
+    "steps": [
+      "ai package is listed in package.json",
+      "At least one AI provider package is listed (e.g. @ai-sdk/openai or @ai-sdk/anthropic)",
+      "pnpm install completes without errors",
+      "generateObject or generateText can be imported from ai without errors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "setup",
+    "description": "Add environment variable validation for all required secrets",
+    "steps": [
+      "src/env.js server schema validates DATABASE_URL as a string",
+      "src/env.js server schema validates CLERK_SECRET_KEY as a string",
+      "src/env.js client schema validates NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY as a string",
+      "src/env.js validates the AI provider API key (e.g. OPENAI_API_KEY)",
+      "App fails to start if any required env var is missing"
+    ],
+    "passes": false
+  },
+  {
+    "category": "database",
+    "description": "Define ScheduleEntry Prisma model",
+    "steps": [
+      "ScheduleEntry model exists in prisma/schema.prisma",
+      "Fields: id (String, cuid, @id), userId (String), weekday (Int), startTime (String), endTime (String), activity (String), createdAt (DateTime, @default(now()))",
+      "Model has an index on userId for efficient querying"
+    ],
+    "passes": false
+  },
+  {
+    "category": "database",
+    "description": "Define FoodEntry Prisma model",
+    "steps": [
+      "FoodEntry model exists in prisma/schema.prisma",
+      "Fields: id (String, cuid, @id), userId (String), date (DateTime), mealType (String), description (String), feelings (String, optional/nullable), createdAt (DateTime, @default(now()))",
+      "Model has an index on userId for efficient querying"
+    ],
+    "passes": false
+  },
+  {
+    "category": "database",
+    "description": "Define AiAnalysis Prisma model",
+    "steps": [
+      "AiAnalysis model exists in prisma/schema.prisma",
+      "Fields: id (String, cuid, @id), userId (String, @unique), recommended (Json), notRecommended (Json), avoidProducts (Json), lastEntryDate (DateTime), createdAt (DateTime, @default(now())), updatedAt (DateTime, @updatedAt)",
+      "Only one AiAnalysis record per user is enforced by @unique on userId"
+    ],
+    "passes": false
+  },
+  {
+    "category": "database",
+    "description": "Add unique constraint on FoodEntry for userId + date + mealType",
+    "steps": [
+      "prisma/schema.prisma has @@unique([userId, date, mealType]) on FoodEntry",
+      "Attempting to insert a duplicate userId + date + mealType combination throws a Prisma unique constraint error"
+    ],
+    "passes": false
+  },
+  {
+    "category": "database",
+    "description": "Run Prisma migration and verify database tables",
+    "steps": [
+      "npx prisma migrate dev runs successfully",
+      "prisma/migrations/ directory contains at least one migration",
+      "ScheduleEntry, FoodEntry, and AiAnalysis tables exist in the PostgreSQL database",
+      "npx prisma db push or prisma migrate deploy completes without errors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "auth",
+    "description": "Configure Clerk with Google OAuth as the only sign-in method",
+    "steps": [
+      "ClerkProvider wraps the app in the root layout",
+      "Clerk dashboard is configured with Google OAuth as the sole sign-in method",
+      "No email/password or other sign-in options are available to users",
+      "Google sign-in button appears on the Clerk sign-in page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "auth",
+    "description": "Clerk middleware protects all application routes",
+    "steps": [
+      "src/middleware.ts (or .js) exists and uses clerkMiddleware from @clerk/nextjs/server",
+      "Middleware matcher covers all app routes",
+      "Requesting any app route without a session returns a redirect response"
+    ],
+    "passes": false
+  },
+  {
+    "category": "auth",
+    "description": "Unauthenticated users are redirected to Clerk sign-in",
+    "steps": [
+      "Visiting / without authentication redirects to the Clerk sign-in page",
+      "Visiting /food-diary without authentication redirects to the Clerk sign-in page",
+      "Visiting /ai-overview without authentication redirects to the Clerk sign-in page",
+      "After signing in, user is redirected back to the originally requested page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "auth",
+    "description": "Clerk userId is accessible in server actions and API routes",
+    "steps": [
+      "auth() from @clerk/nextjs/server returns a valid userId in server actions",
+      "auth() from @clerk/nextjs/server returns a valid userId in API route handlers",
+      "All database operations use the Clerk userId as the foreign key"
+    ],
+    "passes": false
+  },
+  {
+    "category": "layout",
+    "description": "Root layout with light theme, Geist font, and mobile-first design",
+    "steps": [
+      "Page background is white/light (no dark theme)",
+      "Geist font is loaded via next/font/google and applied to the body",
+      "Viewport meta tag is set for mobile-first rendering",
+      "Text and elements are legible and well-sized on a 375px-wide viewport"
+    ],
+    "passes": false
+  },
+  {
+    "category": "layout",
+    "description": "Desktop max-width constraint with centered content",
+    "steps": [
+      "On viewports wider than ~480px, the app content has a max-width constraint",
+      "Content is horizontally centered on desktop",
+      "Layout does not break or stretch awkwardly on a 1440px-wide viewport"
+    ],
+    "passes": false
+  },
+  {
+    "category": "layout",
+    "description": "Fixed bottom tab bar with 4 navigation items",
+    "steps": [
+      "A bottom tab bar is fixed to the bottom of the viewport",
+      "Tab bar has exactly 4 items: Schedule, Food Diary, AI Overview, Settings",
+      "Each tab displays an icon and a label",
+      "Tab bar is visible on all pages (/, /food-diary, /ai-overview)",
+      "Tab bar does not scroll with page content"
+    ],
+    "passes": false
+  },
+  {
+    "category": "layout",
+    "description": "Active tab visual indicator matches current route",
+    "steps": [
+      "On /, the Schedule tab is visually highlighted (e.g. different color/weight)",
+      "On /food-diary, the Food Diary tab is visually highlighted",
+      "On /ai-overview, the AI Overview tab is visually highlighted",
+      "Only one tab is highlighted at a time",
+      "Non-active tabs have a muted/default appearance"
+    ],
+    "passes": false
+  },
+  {
+    "category": "navigation",
+    "description": "Schedule tab navigates to the home route",
+    "steps": [
+      "Tapping Tab 1 (Calendar/Clock icon) navigates to /",
+      "The / route renders the Day Schedule page content",
+      "Navigation does not cause a full page reload (client-side navigation)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "navigation",
+    "description": "Food Diary tab navigates to /food-diary",
+    "steps": [
+      "Tapping Tab 2 (Utensils/Book icon) navigates to /food-diary",
+      "The /food-diary route renders the Food Diary page content",
+      "Navigation does not cause a full page reload (client-side navigation)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "navigation",
+    "description": "AI Overview tab navigates to /ai-overview",
+    "steps": [
+      "Tapping Tab 3 (Sparkles/Brain icon) navigates to /ai-overview",
+      "The /ai-overview route renders the AI Overview page content",
+      "Navigation does not cause a full page reload (client-side navigation)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings",
+    "description": "Settings tab opens Clerk UserButton modal without route navigation",
+    "steps": [
+      "Tapping Tab 4 (Gear icon) opens the Clerk UserButton or UserProfile modal",
+      "The browser URL does not change when the modal opens",
+      "No new page route is rendered; the modal overlays the current page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings",
+    "description": "Clerk modal supports profile management and sign out",
+    "steps": [
+      "User can view their profile information in the modal",
+      "User can manage their Google account connection",
+      "User can sign out from the modal",
+      "After sign out, user is redirected to the Clerk sign-in page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "7-slide horizontal carousel for the weekly schedule",
+    "steps": [
+      "The / page renders a horizontal carousel with exactly 7 slides",
+      "Slides represent Monday through Sunday in order",
+      "Week starts on Monday (first slide) and ends on Sunday (last slide)",
+      "User can swipe left/right to navigate between days"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Carousel wraps around infinitely",
+    "steps": [
+      "Swiping right from Sunday transitions to Monday",
+      "Swiping left from Monday transitions to Sunday",
+      "Wrap-around transitions are smooth, not jarring"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Carousel auto-scrolls to the current weekday on load",
+    "steps": [
+      "On initial page load, the carousel displays the slide for today's weekday",
+      "If today is Wednesday, the Wednesday slide is visible without user interaction",
+      "Auto-scroll happens without a noticeable visual jump or flicker"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Day name header displayed on each carousel slide",
+    "steps": [
+      "Each slide has a visible header showing the full day name (e.g. Monday, Tuesday)",
+      "The header is positioned at the top of the slide",
+      "All 7 slides have their correct corresponding day name"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Activities listed and sorted ascending by start time",
+    "steps": [
+      "Activities for a given day are displayed as a vertical list",
+      "Activities are sorted by start time in ascending order (earliest first)",
+      "Adding an activity with an earlier start time places it above later activities"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Activity row displays time range in 24h format and activity name",
+    "steps": [
+      "Each activity row shows the time range in 24h format (e.g. '09:00 - 10:30')",
+      "The activity name is displayed next to or below the time range",
+      "Both time range and activity name are legible and properly formatted"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-display",
+    "description": "Empty day shows placeholder text",
+    "steps": [
+      "A day with no activities shows the text 'No activities yet' or equivalent",
+      "The placeholder is visually distinct from activity rows (e.g. muted text)",
+      "The add form is still visible below the placeholder"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-form",
+    "description": "Inline activity form is sticky at the bottom of each day slide",
+    "steps": [
+      "Each day slide has an activity creation form at the bottom",
+      "The form remains visible (sticky/fixed) when scrolling through a long activity list",
+      "The form is inside or visually associated with the current slide"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-form",
+    "description": "Start time picker input in 24h format",
+    "steps": [
+      "The form includes a time input for start time",
+      "The input uses 24h format (e.g. 14:30, not 2:30 PM)",
+      "User can select or type a valid time value"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-form",
+    "description": "End time picker input in 24h format",
+    "steps": [
+      "The form includes a time input for end time",
+      "The input uses 24h format (e.g. 14:30, not 2:30 PM)",
+      "User can select or type a valid time value"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-form",
+    "description": "Activity text input with submit button",
+    "steps": [
+      "The form includes a text input for the activity name",
+      "A submit button is present and clearly labeled",
+      "The button is disabled or shows validation when required fields are empty",
+      "Pressing submit with valid data creates the activity"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-form",
+    "description": "Form clears after successful submission",
+    "steps": [
+      "After successfully creating an activity, the start time input is cleared",
+      "The end time input is cleared",
+      "The activity name input is cleared",
+      "The form is ready for the next entry without manual clearing"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-interaction",
+    "description": "Long-press on activity row reveals delete option",
+    "steps": [
+      "Long-pressing (touch-and-hold) on an activity row reveals a delete action",
+      "The delete option is clearly visible (e.g. button, icon, or context menu)",
+      "A normal tap does not trigger the delete option",
+      "The delete option disappears if the user cancels (taps elsewhere)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-interaction",
+    "description": "Delete removes an individual activity",
+    "steps": [
+      "Tapping the delete option removes the activity from the list",
+      "The activity is deleted from the database",
+      "Other activities on the same day remain unaffected",
+      "The UI updates to reflect the deletion"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-interaction",
+    "description": "Optimistic UI update on activity creation",
+    "steps": [
+      "After submitting a new activity, it appears in the list immediately (before server response)",
+      "If the server action fails, the optimistically added activity is removed",
+      "An error message is shown if the server action fails",
+      "On success, the optimistic entry is confirmed (no flicker or duplication)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-interaction",
+    "description": "Overlap validation with visual warning that allows save",
+    "steps": [
+      "If a new activity's time range overlaps with an existing activity, a warning is displayed",
+      "The warning is shown inline near the form (not a blocking modal)",
+      "The user can still submit the form despite the overlap warning",
+      "The activity is saved successfully even with an overlap"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-server",
+    "description": "Server action to create a schedule entry for a weekday",
+    "steps": [
+      "A server action exists that accepts weekday, startTime, endTime, and activity",
+      "The action uses the authenticated Clerk userId",
+      "A new ScheduleEntry row is inserted into the database",
+      "The action revalidates the schedule data after creation"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-server",
+    "description": "Server action to read all schedule entries grouped by weekday",
+    "steps": [
+      "A server action or server component query fetches all ScheduleEntries for the authenticated user",
+      "Results are grouped or queryable by weekday (0-6)",
+      "Only entries belonging to the current user are returned",
+      "Entries are ordered by startTime ascending within each weekday"
+    ],
+    "passes": false
+  },
+  {
+    "category": "schedule-server",
+    "description": "Server action to delete a schedule entry by ID",
+    "steps": [
+      "A server action exists that accepts a schedule entry ID",
+      "The action verifies the entry belongs to the authenticated user before deleting",
+      "The entry is removed from the database",
+      "The action revalidates the schedule data after deletion"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-display",
+    "description": "Current date displayed at top of Food Diary page",
+    "steps": [
+      "The /food-diary page shows the current date at the top",
+      "The date is read-only (not editable or selectable)",
+      "The date always reflects today's date",
+      "The date format is clear and human-readable (e.g. 'Thursday, February 19, 2026')"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-display",
+    "description": "Five accordion sections for meal types",
+    "steps": [
+      "The page displays 5 accordion sections in vertical scroll",
+      "Sections are labeled: Breakfast, Lunch, Dinner, Supper, Party",
+      "Sections appear in the order listed above",
+      "Each accordion can be expanded and collapsed independently"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-display",
+    "description": "Maximum one entry per meal type per day enforced in UI",
+    "steps": [
+      "Once a food description is saved for a meal type, the save form for that description is no longer shown",
+      "There is no way to create a second entry for the same meal type on the same day",
+      "The UI reflects whether an entry already exists for each meal type"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-display",
+    "description": "Accordion empty state shows food description form with feelings disabled",
+    "steps": [
+      "When no record exists for a meal type, expanding the accordion shows a food description textarea",
+      "A Save button is present next to or below the textarea",
+      "The feelings textarea is either hidden or visually disabled",
+      "User cannot input or save feelings before saving the food description"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-display",
+    "description": "Accordion description-saved state enables feelings input",
+    "steps": [
+      "After saving a food description, the description is displayed in read-only mode",
+      "The feelings textarea is now visible and enabled",
+      "A Save button is present for the feelings field",
+      "User can type in the feelings textarea and submit"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-interaction",
+    "description": "Both-saved state renders description and feelings as read-only",
+    "steps": [
+      "After both food description and feelings are saved, both are displayed as read-only text",
+      "No edit or delete buttons are shown",
+      "The accordion can still be expanded/collapsed to view the content"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-interaction",
+    "description": "Food diary entries are locked once submitted",
+    "steps": [
+      "After a food description is saved, there is no way to edit or delete it from the UI",
+      "After feelings are saved, there is no way to edit or delete them from the UI",
+      "No delete button or edit action is available for any submitted entry"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-interaction",
+    "description": "Meals not eaten have no record and no skip button",
+    "steps": [
+      "If a user did not eat a meal, the accordion for that meal type shows the empty state",
+      "There is no 'skip' or 'didn't eat' button",
+      "Unlogged meals do not create any database record"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-server",
+    "description": "Server action to create a food entry with description only",
+    "steps": [
+      "A server action exists that accepts date, mealType, and description",
+      "The action uses the authenticated Clerk userId",
+      "A new FoodEntry row is inserted with feelings set to null",
+      "The action revalidates the food diary data after creation"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-server",
+    "description": "Server action to read all food entries for today",
+    "steps": [
+      "A server action or server component query fetches all FoodEntries for the authenticated user for today's date",
+      "Only entries matching today's date are returned",
+      "Only entries belonging to the current user are returned",
+      "All 5 meal types are queryable (breakfast, lunch, dinner, supper, party)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "food-diary-server",
+    "description": "Server action to update a food entry with feelings",
+    "steps": [
+      "A server action exists that accepts a food entry ID and feelings text",
+      "The action verifies the entry belongs to the authenticated user",
+      "The feelings field is updated on the existing FoodEntry record",
+      "The action revalidates the food diary data after update"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-display",
+    "description": "Three analysis cards for AI results",
+    "steps": [
+      "The /ai-overview page displays 3 distinct card sections",
+      "Card 1 is titled 'Recommended Dishes'",
+      "Card 2 is titled 'Strictly Not Recommended'",
+      "Card 3 is titled 'Products/Ingredients to Avoid'",
+      "Each card renders its content as a formatted list of items with reasons"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-display",
+    "description": "Each analysis card shows AI-generated content as a formatted list",
+    "steps": [
+      "Recommended card shows items as { dish, reason } entries",
+      "Not Recommended card shows items as { dish, reason } entries",
+      "Avoid Products card shows items as { product, reason } entries",
+      "Each list item displays both the name and the reasoning"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-display",
+    "description": "Last updated timestamp indicator",
+    "steps": [
+      "A 'Last updated' label is displayed at the top of the AI Overview page",
+      "The timestamp shows the relative or absolute time of the most recent analysis",
+      "The timestamp updates after a new analysis is generated"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-display",
+    "description": "Empty state with explanation and generate button",
+    "steps": [
+      "When no AI analysis exists, explanation text describes what the feature does",
+      "A 'Generate your first analysis' button is displayed",
+      "The analysis cards are not shown in the empty state"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-display",
+    "description": "Generate button disabled until 14+ food entries with progress message",
+    "steps": [
+      "The 'Generate your first analysis' button is disabled when the user has fewer than 14 food entries",
+      "A message like 'Log at least 14 meals to unlock AI analysis (X/14 so far)' is shown",
+      "X reflects the actual count of the user's food entries",
+      "The button becomes enabled once the user reaches 14 or more entries"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-actions",
+    "description": "Update analysis button sends incremental data",
+    "steps": [
+      "An 'Update based on latest data' button is visible after the first analysis exists",
+      "Pressing the button triggers a request with mode 'incremental'",
+      "The request sends the previous analysis results plus only food entries since lastEntryDate",
+      "The result replaces the stored analysis in the database"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-actions",
+    "description": "Regenerate analysis button sends full data",
+    "steps": [
+      "A 'Regenerate from full data' button is visible after the first analysis exists",
+      "Pressing the button triggers a request with mode 'full'",
+      "The request sends the complete food diary history for the user",
+      "The result replaces the stored analysis in the database"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-actions",
+    "description": "Analysis action buttons disabled while processing",
+    "steps": [
+      "After pressing either analysis button, both buttons become disabled",
+      "Buttons remain disabled until the processing completes or the page is refreshed",
+      "A user cannot trigger multiple simultaneous analysis requests"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-actions",
+    "description": "Processing toast notification on analysis trigger",
+    "steps": [
+      "After pressing an analysis button, a toast notification appears at the bottom of the screen",
+      "The toast message is 'Analysis in progress. Results will appear shortly -- please refresh.' or equivalent",
+      "The toast does not block user interaction with the rest of the page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-server",
+    "description": "POST /api/ai/analyze route handler accepts mode parameter",
+    "steps": [
+      "A route handler exists at src/app/api/ai/analyze/route.ts",
+      "The handler accepts POST requests with a JSON body containing { mode: 'incremental' | 'full' }",
+      "The handler validates the mode parameter",
+      "The handler verifies the user is authenticated via Clerk"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-server",
+    "description": "AI system prompt configured as nutrition/wellness analyst",
+    "steps": [
+      "The AI call includes a system prompt defining the role as a nutrition/wellness analyst",
+      "The prompt instructs the AI to correlate food descriptions with reported feelings",
+      "The prompt instructs the AI to identify patterns between diet and emotional/physical states"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-server",
+    "description": "Incremental mode sends previous analysis plus new entries",
+    "steps": [
+      "When mode is 'incremental', the existing AiAnalysis record is fetched from the database",
+      "Only food entries with dates after lastEntryDate are queried",
+      "Both the previous analysis JSON and the new food entries are included in the AI prompt",
+      "The AI is instructed to revise/extend its existing analysis with the new data"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-server",
+    "description": "Full mode sends all food entries for the user",
+    "steps": [
+      "When mode is 'full', all FoodEntry records for the user are queried",
+      "All entries (date, mealType, description, feelings) are included in the AI prompt",
+      "No previous analysis is sent; the AI produces a fresh analysis from scratch"
+    ],
+    "passes": false
+  },
+  {
+    "category": "ai-server",
+    "description": "AI output parsed and stored as structured JSON in AiAnalysis",
+    "steps": [
+      "The AI response is parsed as JSON with three arrays: recommended, notRecommended, avoidProducts",
+      "recommended items have { dish: string, reason: string } shape",
+      "notRecommended items have { dish: string, reason: string } shape",
+      "avoidProducts items have { product: string, reason: string } shape",
+      "The parsed result is upserted into the AiAnalysis table with the userId",
+      "lastEntryDate is updated to the date of the newest food entry included"
+    ],
+    "passes": false
+  },
+  {
+    "category": "pwa",
+    "description": "Web app manifest with app name, icons, and theme color",
+    "steps": [
+      "A manifest.json or manifest.webmanifest file exists in the public directory",
+      "The manifest includes a name and short_name for the app",
+      "The manifest includes at least one icon (192x192 and 512x512 recommended)",
+      "The manifest includes a theme_color value",
+      "The manifest is linked in the root layout via <link rel='manifest'> or metadata"
+    ],
+    "passes": false
+  },
+  {
+    "category": "pwa",
+    "description": "PWA display mode set to standalone",
+    "steps": [
+      "The manifest.json display property is set to 'standalone'",
+      "When installed on a mobile device, the app opens without browser chrome"
+    ],
+    "passes": false
+  },
+  {
+    "category": "pwa",
+    "description": "PWA orientation set to portrait",
+    "steps": [
+      "The manifest.json orientation property is set to 'portrait'",
+      "The installed app defaults to portrait orientation on mobile"
+    ],
+    "passes": false
+  },
+  {
+    "category": "pwa",
+    "description": "App shell cached for instant load via service worker",
+    "steps": [
+      "A service worker is registered that caches the app shell (HTML, CSS, JS bundles)",
+      "On subsequent visits, the app shell loads instantly from cache",
+      "Data requests still require a network connection (no offline data sync)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "pwa",
+    "description": "App is installable on mobile devices",
+    "steps": [
+      "The PWA meets Chrome/Safari installability requirements (manifest + service worker + HTTPS)",
+      "The browser shows an 'Add to Home Screen' prompt or the option is available in the browser menu",
+      "After installation, the app appears on the device home screen with the configured icon"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feedback",
+    "description": "Success feedback via toast notifications at the bottom of the screen",
+    "steps": [
+      "Successful mutations (create activity, save food entry, save feelings) trigger a toast notification",
+      "The toast appears at the bottom of the screen",
+      "The toast auto-dismisses after a few seconds",
+      "The toast message describes the successful action"
+    ],
+    "passes": false
+  },
+  {
+    "category": "feedback",
+    "description": "Error feedback via inline messages next to the relevant form field",
+    "steps": [
+      "Validation errors are displayed inline near the offending input field",
+      "Server errors show an inline message near the form that triggered the action",
+      "Error messages are descriptive and help the user fix the issue",
+      "Errors do not use toast notifications (those are reserved for success)"
+    ],
+    "passes": false
+  }
+]

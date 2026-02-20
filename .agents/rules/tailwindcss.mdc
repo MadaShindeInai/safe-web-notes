@@ -3,16 +3,13 @@ description: Tailwind CSS conventions
 globs: ["**/*.jsx", "**/*.tsx"]
 ---
 **`*cn`* function should be used only in a case you are merging styles**:
-className=’mr-4 pb-6’ ✅
-
-className={cn(’mr-4 pb-6’)} ❌
+className="mr-4 pb-6" GOOD
+className={cn("mr-4 pb-6")} BAD
 
 **“Base” styles should be declared first, overriding - last:**
-
-className={cn(’mr-4 pb-6’, props.className)} ✅
-
-className={cn(props.className, ’mr-4 pb-6’ )} ❌
+className={cn("mr-4 pb-6", props.className)} GOOD
+className={cn(props.className, "mr-4 pb-6" )} BAD
 
 **Conditional classes should be declared this way:**
-
-className={cn(’mr-4 pb-6’, {’border-5’: isBorderVisible})} ✅
+className={cn("mr-4 pb-6", {"border-5": isBorderVisible})} GOOD
+className={cn(`mr-4 pb-6 ${isBorderVisible ? "border-5" : ""}` )} BAD
