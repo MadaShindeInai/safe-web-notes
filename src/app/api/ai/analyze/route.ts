@@ -2,7 +2,6 @@ import { generateObject } from "ai";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getRequiredUserId } from "~/lib/auth";
-import { openai } from "~/lib/ai";
 import { prisma } from "~/lib/prisma";
 
 const bodySchema = z.object({
@@ -10,15 +9,9 @@ const bodySchema = z.object({
 });
 
 const analysisSchema = z.object({
-  recommended: z.array(
-    z.object({ dish: z.string(), reason: z.string() }),
-  ),
-  notRecommended: z.array(
-    z.object({ dish: z.string(), reason: z.string() }),
-  ),
-  avoidProducts: z.array(
-    z.object({ product: z.string(), reason: z.string() }),
-  ),
+  recommended: z.array(z.object({ dish: z.string(), reason: z.string() })),
+  notRecommended: z.array(z.object({ dish: z.string(), reason: z.string() })),
+  avoidProducts: z.array(z.object({ product: z.string(), reason: z.string() })),
 });
 
 export async function POST(req: Request) {
@@ -98,7 +91,7 @@ export async function POST(req: Request) {
   }
 
   const { object } = await generateObject({
-    model: openai("gpt-4.1"),
+    model: "anthropic/claude-sonnet-4.5",
     system:
       "You are a professional nutrition and wellness analyst. Analyze the user's food diary and correlate what they eat with how they feel after meals. Identify patterns between specific foods/meals and reported emotional or physical states. Provide personalized dietary recommendations based on these patterns.",
     prompt: userPrompt,
