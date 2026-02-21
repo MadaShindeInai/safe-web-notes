@@ -545,7 +545,7 @@
       "A new FoodEntry row is inserted with feelings set to null",
       "The action revalidates the food diary data after creation"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-server",
@@ -556,7 +556,7 @@
       "Only entries belonging to the current user are returned",
       "All 5 meal types are queryable (breakfast, lunch, dinner, supper, party)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-server",
@@ -567,7 +567,7 @@
       "The feelings field is updated on the existing FoodEntry record",
       "The action revalidates the food diary data after update"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-display",

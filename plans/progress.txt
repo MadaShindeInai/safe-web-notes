@@ -108,3 +108,14 @@ AddActivityForm: removed direct server action import + weekday prop. Now receive
   overlapWarning on successful save. pnpm check passes.
 
 Next priority: fooddiary-server-actions (unblocked — auth-userid-access complete).
+
+2026-02-21 — Food diary server actions
+
+Created src/server/actions/food-diary.ts with three 'use server' actions:
+- getTodayFoodEntries(): findMany filtered by userId + date range [todayUTC, todayUTC+24h).
+- createFoodEntry(mealType, description): inserts row with feelings=null, date=todayUTC(), revalidatePath('/food-diary').
+- updateFoodEntryFeelings(id, feelings): verifies ownership via findFirst, updates feelings, revalidatePath('/food-diary').
+todayUTC() helper: Date.UTC(year, month, day) — normalises to midnight UTC to match stored dates and respect @@unique([userId, date, mealType]).
+pnpm check passes.
+
+Next priority: fooddiary-page (unblocked — fooddiary-server-actions + layout-tabbar complete).
