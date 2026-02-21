@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeProvider } from "~/components/layout/theme-provider";
 import { TabBar } from "~/components/layout/tab-bar";
+import { PwaRegister } from "~/components/pwa-register";
 
 export const metadata: Metadata = {
   title: "Ralph",
@@ -34,6 +35,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             </main>
             <TabBar />
             <Toaster position="bottom-center" />
+            <PwaRegister />
           </ThemeProvider>
         </body>
       </html>

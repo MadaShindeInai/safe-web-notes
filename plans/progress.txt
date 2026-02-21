@@ -191,3 +191,24 @@ pnpm check passes.
 
 Next priority: pwa-service-worker (now unblocked — pwa-manifest complete).
 After that: ui-polish (spacing review — only remaining failing PRD item).
+
+2026-02-21 — PWA service worker (pwa-service-worker)
+
+public/sw.js: hand-rolled service worker (no extra dependency — avoids next-pwa/Serwist
+  webpack requirement conflicts with Turbopack).
+  - install: skipWaiting() for instant activation.
+  - activate: purges stale caches, claims clients.
+  - fetch: skips non-GET, /api/*, /sign-in, /sign-up.
+    /_next/static/* → cache-first (content-hashed, safe to cache forever).
+    HTML pages → network-first with cache fallback for offline resilience.
+src/components/pwa-register.tsx: 'use client'; useEffect registers /sw.js via
+  navigator.serviceWorker.register on mount.
+src/app/layout.tsx: <PwaRegister /> mounted inside ThemeProvider.
+next.config.js: headers() adds Cache-Control: no-cache + Content-Type for /sw.js
+  so browsers always fetch the latest service worker version.
+tsconfig.json: added "public" to exclude array — service worker runs in
+  ServiceWorkerGlobalScope (not Window/DOM), so ts-checking it against dom lib
+  produced false-positive errors.
+pnpm check passes.
+
+Next priority: ui-polish (only remaining failing PRD item).

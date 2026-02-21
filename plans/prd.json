@@ -758,7 +758,7 @@
       "On subsequent visits, the app shell loads instantly from cache",
       "Data requests still require a network connection (no offline data sync)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "pwa",
@@ -768,7 +768,7 @@
       "The browser shows an 'Add to Home Screen' prompt or the option is available in the browser menu",
       "After installation, the app appears on the device home screen with the configured icon"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feedback",
