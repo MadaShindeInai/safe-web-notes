@@ -384,7 +384,7 @@
       "A normal tap does not trigger the delete option",
       "The delete option disappears if the user cancels (taps elsewhere)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-interaction",
@@ -395,7 +395,7 @@
       "Other activities on the same day remain unaffected",
       "The UI updates to reflect the deletion"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-interaction",
@@ -406,7 +406,7 @@
       "An error message is shown if the server action fails",
       "On success, the optimistic entry is confirmed (no flicker or duplication)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-interaction",
@@ -417,7 +417,7 @@
       "The user can still submit the form despite the overlap warning",
       "The activity is saved successfully even with an overlap"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-server",

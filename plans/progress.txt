@@ -92,3 +92,19 @@ src/components/schedule/week-carousel.tsx: passes weekday={i} to each DaySlide.
 pnpm check + tsc --noEmit pass.
 
 Next priority: schedule-interactions (long-press delete + optimistic UI + overlap warning).
+
+2026-02-21 — Schedule interactions (long-press delete + optimistic UI + overlap warning)
+
+ActivityRow: 'use client'; 500ms onPointerDown timer → showDelete overlay. onPointerUp/Leave
+  cancels timer. Document click listener (capture phase) dismisses overlay on tap elsewhere.
+  Delete button triggers onDelete(id) prop, stopPropagation to prevent self-dismiss.
+DaySlide: 'use client'; useOptimistic<Entry[], add|delete action> + useTransition. handleAdd
+  wraps startTransition(async) + dispatch({ type:'add' }) + createScheduleEntry in a Promise
+  so AddActivityForm can await result. handleDelete dispatches { type:'delete' } then calls
+  deleteScheduleEntry; error shown via toast.error.
+AddActivityForm: removed direct server action import + weekday prop. Now receives entries[]
+  (for overlap) + onAdd callback. Overlap: findOverlap computes timeToMinutes, checks all
+  entries for the slide; shows yellow warning inline but does not block submit. Clears
+  overlapWarning on successful save. pnpm check passes.
+
+Next priority: fooddiary-server-actions (unblocked — auth-userid-access complete).
