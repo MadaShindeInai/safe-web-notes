@@ -14,7 +14,7 @@ fi
 for ((i=1; i<=$1; i++)); do
   echo "Iteration $i"
   echo "--------------------------------"
-  result=$(claude --permission-mode acceptEdits -p "@plans/PLANS.json @plans/progress.txt @plans/prd.json \
+  result=$(claude --permission-mode bypassPermissions -p "@plans/PLANS.json @plans/progress.txt @plans/prd.json \
 1. Decide which task to work on next. \
 This should be the one YOU decide has the highest priority, \
 - not necessarily the first in the list. \
