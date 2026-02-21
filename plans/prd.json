@@ -144,7 +144,7 @@
       "Visiting /ai-overview without authentication redirects to the Clerk sign-in page",
       "After signing in, user is redirected back to the originally requested page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "auth",
@@ -154,7 +154,7 @@
       "auth() from @clerk/nextjs/server returns a valid userId in API route handlers",
       "All database operations use the Clerk userId as the foreign key"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "layout",

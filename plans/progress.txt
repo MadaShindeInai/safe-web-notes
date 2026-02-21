@@ -42,3 +42,17 @@ Stub pages created: /food-diary and /ai-overview.
 
 Next priority (PLANS.json): auth-clerk-webhook (unblocks all server actions),
 then schedule-server-actions.
+
+2026-02-21 — Auth infrastructure (auth-clerk-webhook + auth-redirect + auth-userid-access)
+
+src/app/api/webhooks/clerk/route.ts: verifies Svix signature via verifyWebhook from
+@clerk/nextjs/webhooks. user.created/user.updated → prisma.user.upsert (id, email, name).
+user.deleted → prisma.user.deleteMany. Returns 204 on success, 400 on invalid signature.
+src/env.js: CLERK_WEBHOOK_SECRET added to server schema. AI_GATEWAY_API_KEY replaces
+OPENAI_API_KEY (user is routing through an AI gateway).
+src/middleware.ts: /api/webhooks/clerk added to public routes. All other routes protected
+via auth.protect(). clerkMiddleware from @clerk/nextjs/server.
+src/lib/auth.ts: getRequiredUserId() — calls auth(), throws "Unauthorized" if userId null.
+All server actions must use this helper instead of calling auth() directly.
+
+Next priority: schedule-server-actions (now unblocked — auth-userid-access complete).
