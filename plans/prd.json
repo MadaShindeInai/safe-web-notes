@@ -187,7 +187,7 @@
       "Tab bar is visible on all pages (/, /food-diary, /ai-overview)",
       "Tab bar does not scroll with page content"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "layout",
@@ -199,7 +199,7 @@
       "Only one tab is highlighted at a time",
       "Non-active tabs have a muted/default appearance"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "navigation",
@@ -209,7 +209,7 @@
       "The / route renders the Day Schedule page content",
       "Navigation does not cause a full page reload (client-side navigation)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "navigation",
@@ -219,7 +219,7 @@
       "The /food-diary route renders the Food Diary page content",
       "Navigation does not cause a full page reload (client-side navigation)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "navigation",
@@ -229,7 +229,7 @@
       "The /ai-overview route renders the AI Overview page content",
       "Navigation does not cause a full page reload (client-side navigation)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings",
@@ -239,7 +239,7 @@
       "The browser URL does not change when the modal opens",
       "No new page route is rendered; the modal overlays the current page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings",
@@ -250,7 +250,7 @@
       "User can sign out from the modal",
       "After sign out, user is redirected to the Clerk sign-in page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",

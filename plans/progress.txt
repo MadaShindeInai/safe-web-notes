@@ -25,13 +25,20 @@ OPENAI_API_KEY already validated in env.js.
 
 2026-02-21 — Root layout + desktop max-width
 
-layout.tsx: viewport export (width=device-width, initialScale=1), Geist variable on html,
-font-sans + bg-background on body, max-w-sm mx-auto content wrapper (pb-16 for tab bar),
-Toaster (bottom-center), title "Ralph". Old Footer removed.
-ThemeProvider (next-themes, attribute="class", defaultTheme="system", enableSystem) wraps
-app — dark mode follows OS setting automatically via .dark class on html.
-globals.css: .dark block + @custom-variant dark retained.
-suppressHydrationWarning on <html> to prevent next-themes mismatch warning.
+layout.tsx: viewport export, Geist variable on html, font-sans + bg-background on body,
+max-w-sm mx-auto wrapper (pb-16 for tab bar), Toaster (bottom-center), title "Ralph".
+ThemeProvider (next-themes, defaultTheme="system", enableSystem) — dark/light follows OS.
+suppressHydrationWarning on <html>. afterSignOutUrl="/sign-in" moved to ClerkProvider.
 
-Next priority (PLANS.json): layout-tabbar — sticky bottom tab bar with 4 items.
-Unblocked by layout-root. This in turn unblocks all navigation and page tasks.
+2026-02-21 — Tab bar + navigation + settings
+
+src/components/layout/tab-bar.tsx: fixed bottom nav, max-w-sm centered, 4 items.
+- Schedule (CalendarDays → /), Food Diary (BookOpen → /food-diary),
+  AI Overview (Sparkles → /ai-overview), Settings (Clerk UserButton inline).
+- usePathname() drives active state: text-primary + font-semibold + strokeWidth 2.5.
+- Inactive tabs: text-muted-foreground + strokeWidth 1.75.
+- UserButton opens Clerk modal in-place; URL does not change.
+Stub pages created: /food-diary and /ai-overview.
+
+Next priority (PLANS.json): auth-clerk-webhook (unblocks all server actions),
+then schedule-server-actions.

@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeProvider } from "~/components/layout/theme-provider";
+import { TabBar } from "~/components/layout/tab-bar";
 
 export const metadata: Metadata = {
   title: "Ralph",
@@ -24,13 +25,14 @@ const geist = Geist({
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl="/sign-in">
       <html lang="en" className={geist.variable} suppressHydrationWarning>
         <body className="min-h-screen bg-background font-sans">
           <ThemeProvider>
             <main className="mx-auto w-full max-w-sm pb-16">
               {children}
             </main>
+            <TabBar />
             <Toaster position="bottom-center" />
           </ThemeProvider>
         </body>
