@@ -478,7 +478,7 @@
       "modify": ["src/app/layout.tsx"]
     },
     "blockedBy": [],
-    "implementation": "manifest.json: name='Ralph', short_name='Ralph', display='standalone', orientation='portrait', theme_color='#ffffff', background_color='#ffffff', icons=[{src:'/icons/icon-192.png',sizes:'192x192'},{src:'/icons/icon-512.png',sizes:'512x512'}]. Generate simple icons (solid bg with letter R) or use a placeholder PNG. Link via Next.js metadata.manifest in layout.tsx or place manifest.json in app/ as a route file using Next.js manifest.ts convention.",
+    "implementation": "manifest.json: name='Life Helper', short_name='Life Helper', display='standalone', orientation='portrait', theme_color='#ffffff', background_color='#ffffff', icons=[{src:'/icons/icon-192.png',sizes:'192x192'},{src:'/icons/icon-512.png',sizes:'512x512'}]. Generate simple icons (solid bg with letter L) or use a placeholder PNG. Link via Next.js metadata.manifest in layout.tsx or place manifest.json in app/ as a route file using Next.js manifest.ts convention.",
     "tests": [
       "pnpm check passes",
       "GET /manifest.json returns valid JSON with name, icons, display, orientation",

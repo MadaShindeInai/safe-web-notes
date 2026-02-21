@@ -1,5 +1,5 @@
 {
-  "name": "ralph",
+  "name": "life-helper",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,7 +16,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/openai": "3.0.30",
     "@clerk/nextjs": "^6.38.0",
     "@prisma/adapter-pg": "7.4.1",
     "@prisma/client": "7.4.1",

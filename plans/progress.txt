@@ -26,7 +26,7 @@ OPENAI_API_KEY already validated in env.js.
 2026-02-21 — Root layout + desktop max-width
 
 layout.tsx: viewport export, Geist variable on html, font-sans + bg-background on body,
-max-w-sm mx-auto wrapper (pb-16 for tab bar), Toaster (bottom-center), title "Ralph".
+max-w-sm mx-auto wrapper (pb-16 for tab bar), Toaster (bottom-center), title "Life Helper".
 ThemeProvider (next-themes, defaultTheme="system", enableSystem) — dark/light follows OS.
 suppressHydrationWarning on <html>. afterSignOutUrl="/sign-in" moved to ClerkProvider.
 
@@ -175,7 +175,7 @@ Next priority: pwa-manifest (no remaining dependencies).
 2026-02-21 — PWA manifest (pwa-manifest)
 
 src/app/manifest.ts: Next.js file convention; auto-links <link rel="manifest"> in all pages.
-  name/short_name='Ralph', display='standalone', orientation='portrait',
+  name/short_name='Life Helper', display='standalone', orientation='portrait',
   background_color/theme_color='#ffffff'. Icons: /icons/icon-192.png (192x192),
   /icons/icon-512.png (512x512, purpose='any'), /icons/icon-512.png (purpose='maskable').
 public/icons/icon-192.png + icon-512.png: generated via scripts/gen-icons.mjs (Node.js built-ins

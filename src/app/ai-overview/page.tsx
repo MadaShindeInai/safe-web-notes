@@ -16,10 +16,10 @@ export default async function AiOverviewPage() {
     return (
       <div className="space-y-4 p-4 pb-20">
         <h1 className="text-xl font-semibold">AI Overview</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Your personal nutrition analyst. Once you&apos;ve logged enough meals,
-          Ralph will analyze your food diary and correlate what you eat with how
-          you feel — generating personalized recommendations.
+          Life Helper will analyze your food diary and correlate what you eat
+          with how you feel — generating personalized recommendations.
         </p>
         <AnalysisActions hasAnalysis={false} entryCount={entryCount} />
       </div>
@@ -52,7 +52,7 @@ export default async function AiOverviewPage() {
     <div className="space-y-4 p-4 pb-20">
       <div>
         <h1 className="text-xl font-semibold">AI Overview</h1>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Last updated: {lastUpdated}
         </p>
       </div>
