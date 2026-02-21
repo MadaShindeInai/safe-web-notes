@@ -27,7 +27,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <ClerkProvider afterSignOutUrl="/sign-in">
       <html lang="en" className={geist.variable} suppressHydrationWarning>
-        <body className="bg-background min-h-screen font-sans">
+        <body className="bg-background min-h-dvh font-sans">
           <ThemeProvider>
             <main className="mx-auto w-full max-w-sm pb-16">{children}</main>
             <TabBar />
