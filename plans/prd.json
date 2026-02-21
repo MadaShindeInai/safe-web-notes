@@ -261,7 +261,7 @@
       "Week starts on Monday (first slide) and ends on Sunday (last slide)",
       "User can swipe left/right to navigate between days"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -271,7 +271,7 @@
       "Swiping left from Monday transitions to Sunday",
       "Wrap-around transitions are smooth, not jarring"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -281,7 +281,7 @@
       "If today is Wednesday, the Wednesday slide is visible without user interaction",
       "Auto-scroll happens without a noticeable visual jump or flicker"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -291,7 +291,7 @@
       "The header is positioned at the top of the slide",
       "All 7 slides have their correct corresponding day name"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -301,7 +301,7 @@
       "Activities are sorted by start time in ascending order (earliest first)",
       "Adding an activity with an earlier start time places it above later activities"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -311,7 +311,7 @@
       "The activity name is displayed next to or below the time range",
       "Both time range and activity name are legible and properly formatted"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-display",
@@ -321,7 +321,7 @@
       "The placeholder is visually distinct from activity rows (e.g. muted text)",
       "The add form is still visible below the placeholder"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-form",
