@@ -579,7 +579,7 @@
       "Card 3 is titled 'Products/Ingredients to Avoid'",
       "Each card renders its content as a formatted list of items with reasons"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-display",
@@ -590,7 +590,7 @@
       "Avoid Products card shows items as { product, reason } entries",
       "Each list item displays both the name and the reasoning"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-display",
@@ -600,7 +600,7 @@
       "The timestamp shows the relative or absolute time of the most recent analysis",
       "The timestamp updates after a new analysis is generated"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-display",
@@ -610,7 +610,7 @@
       "A 'Generate your first analysis' button is displayed",
       "The analysis cards are not shown in the empty state"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-display",
@@ -621,7 +621,7 @@
       "X reflects the actual count of the user's food entries",
       "The button becomes enabled once the user reaches 14 or more entries"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-actions",
@@ -632,7 +632,7 @@
       "The request sends the previous analysis results plus only food entries since lastEntryDate",
       "The result replaces the stored analysis in the database"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-actions",
@@ -643,7 +643,7 @@
       "The request sends the complete food diary history for the user",
       "The result replaces the stored analysis in the database"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-actions",
@@ -653,7 +653,7 @@
       "Buttons remain disabled until the processing completes or the page is refreshed",
       "A user cannot trigger multiple simultaneous analysis requests"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-actions",
@@ -663,7 +663,7 @@
       "The toast message is 'Analysis in progress. Results will appear shortly -- please refresh.' or equivalent",
       "The toast does not block user interaction with the rest of the page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-server",
@@ -674,7 +674,7 @@
       "The handler validates the mode parameter",
       "The handler verifies the user is authenticated via Clerk"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-server",
@@ -684,7 +684,7 @@
       "The prompt instructs the AI to correlate food descriptions with reported feelings",
       "The prompt instructs the AI to identify patterns between diet and emotional/physical states"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-server",
@@ -695,7 +695,7 @@
       "Both the previous analysis JSON and the new food entries are included in the AI prompt",
       "The AI is instructed to revise/extend its existing analysis with the new data"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-server",
@@ -705,7 +705,7 @@
       "All entries (date, mealType, description, feelings) are included in the AI prompt",
       "No previous analysis is sent; the AI produces a fresh analysis from scratch"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ai-server",
@@ -718,7 +718,7 @@
       "The parsed result is upserted into the AiAnalysis table with the userId",
       "lastEntryDate is updated to the date of the newest food entry included"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "pwa",
@@ -791,5 +791,17 @@
       "Errors do not use toast notifications (those are reserved for success)"
     ],
     "passes": true
+  },
+  {
+    "category": "ui-polish",
+    "description": "Review and improve page spacing — padding, margins, and visual breathing room",
+    "steps": [
+      "Food Diary page has visible top padding so date isn't flush against the screen edge",
+      "Accordion content (meal descriptions, feelings) has comfortable horizontal breathing room",
+      "Date header has enough vertical margin separating it from accordion list",
+      "AI Overview page matches Food Diary spacing conventions (top padding, section gap)",
+      "All pages use consistent horizontal padding (no micro-padding artifacts like px-1)"
+    ],
+    "passes": false
   }
 ]

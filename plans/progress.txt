@@ -136,3 +136,38 @@ feedback-toast-and-errors also marked complete: all forms (schedule + food diary
   implement toast.success on success and inline p.text-destructive on error.
 
 Next priority: ai-server-route (unblocked — setup-ai-sdk + auth-userid-access complete).
+
+2026-02-21 — AI server route (ai-server-route)
+
+src/lib/ai.ts: createOpenAI provider instance using AI_GATEWAY_API_KEY.
+src/app/api/ai/analyze/route.ts: POST handler.
+- Validates auth via getRequiredUserId() → 401 on failure.
+- Validates body with zod { mode: 'full'|'incremental' } → 400 on failure.
+- Full mode: queries all FoodEntry for user.
+- Incremental mode: fetches existing AiAnalysis, queries FoodEntry where date > lastEntryDate;
+  if no existing analysis, falls back to full query.
+- Builds formatted entries text (date, mealType, description, feelings).
+- Incremental prompt prepends previous analysis JSON; instructs AI to update it.
+- generateObject with gpt-4.1, nutrition/wellness analyst system prompt, analysisSchema
+  (recommended/notRecommended: {dish,reason}[]; avoidProducts: {product,reason}[]).
+- Upserts AiAnalysis row with result + lastEntryDate = newest entry date.
+- Returns 200 { success: true }.
+tsc --noEmit passes.
+
+Next priority: ai-overview-page (unblocked — ai-server-route + layout-tabbar complete).
+
+2026-02-21 — AI Overview page (ai-overview-page)
+
+src/app/ai-overview/page.tsx: server component; calls auth() + prisma parallel queries for
+  AiAnalysis and FoodEntry count. Empty state: explanation text + AnalysisActions (Generate
+  button, disabled if count < 14 with 'X/14 meals logged' message). Analysis state: 'Last
+  updated: [timestamp]', three AnalysisCards (Recommended Dishes / Strictly Not Recommended /
+  Products/Ingredients to Avoid), then AnalysisActions (Update + Regenerate buttons).
+src/components/ai/analysis-card.tsx: Card with title + items list ({ name, reason }[]).
+  Shows 'No items.' when array is empty.
+src/components/ai/analysis-actions.tsx: 'use client'; loading state disables all buttons
+  (fire-and-forget). Empty state: single Generate button (disabled < 14 entries + progress
+  msg). Analysis state: Update (mode=incremental) + Regenerate (mode=full). Toast on trigger.
+JSON fields (recommended, notRecommended, avoidProducts) cast from Prisma.JsonValue.
+
+Next priority: pwa-manifest (no remaining dependencies).
