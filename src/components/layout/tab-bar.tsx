@@ -16,7 +16,7 @@ export const TabBar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background">
+    <nav className="border-border bg-background fixed right-0 bottom-0 left-0 z-50 border-t px-2">
       <div className="mx-auto flex w-full max-w-sm items-stretch">
         {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href;
@@ -37,7 +37,7 @@ export const TabBar = () => {
           );
         })}
 
-        <div className="flex flex-1 flex-col items-center justify-center gap-1 py-2 text-xs text-muted-foreground">
+        <div className="text-muted-foreground flex flex-1 flex-col items-center justify-center gap-1 py-2 text-xs">
           <UserButton
             appearance={{
               elements: {
