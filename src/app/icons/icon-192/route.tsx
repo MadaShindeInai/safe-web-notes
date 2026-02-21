@@ -1,16 +1,14 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const size = { width: 32, height: 32 };
-export const contentType = "image/png";
 
-export default function Icon() {
+export function GET() {
   return new ImageResponse(
     (
       <div
         style={{
-          width: 32,
-          height: 32,
+          width: 192,
+          height: 192,
           background: "#EAB308",
           display: "flex",
           alignItems: "center",
@@ -20,15 +18,15 @@ export default function Icon() {
         <span
           style={{
             color: "white",
-            fontSize: 12,
+            fontSize: 72,
             fontWeight: 700,
-            letterSpacing: "-0.5px",
+            letterSpacing: "-2px",
           }}
         >
           LH
         </span>
       </div>
     ),
-    { ...size },
+    { width: 192, height: 192 },
   );
 }
