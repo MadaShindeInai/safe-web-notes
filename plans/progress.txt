@@ -18,4 +18,10 @@ updated globals.css with CSS variables, created src/lib/utils.ts.
 Installed: accordion, button, card, sonner, input, textarea, carousel.
 embla-carousel-react@^8.6.0 added to package.json as a dependency.
 
-Next priority: Install Vercel AI SDK + @ai-sdk/openai, then root layout + bottom tab bar.
+2026-02-21 — Vercel AI SDK installed
+
+ai@^6 + @ai-sdk/openai@^3 added to package.json. Provider: openai('gpt-4.1').
+OPENAI_API_KEY already validated in env.js.
+
+Next priority (PLANS.json): layout-root (unblocks entire UI chain), then auth-clerk-webhook
+(unblocks all server actions). Both are unblocked — highest impact tasks remaining.

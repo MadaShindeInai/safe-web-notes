@@ -50,7 +50,7 @@
       "pnpm install completes without errors",
       "generateObject or generateText can be imported from ai without errors"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
