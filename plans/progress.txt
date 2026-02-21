@@ -11,4 +11,11 @@ Updated src/env.js: server validates CLERK_SECRET_KEY, OPENAI_API_KEY, DATABASE_
 client validates NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and all NEXT_PUBLIC_CLERK_*_URL vars.
 Updated .env.example with all required variable names and placeholder values.
 
-Next priority: shadcn/ui setup (accordion, button, card, toast/sonner, input, textarea, carousel).
+2026-02-21 — shadcn/ui initialized and components installed
+
+Ran `npx shadcn@latest init --defaults` — detected Tailwind v4, created components.json,
+updated globals.css with CSS variables, created src/lib/utils.ts.
+Installed: accordion, button, card, sonner, input, textarea, carousel.
+embla-carousel-react@^8.6.0 added to package.json as a dependency.
+
+Next priority: Install Vercel AI SDK + @ai-sdk/openai, then root layout + bottom tab bar.

@@ -29,7 +29,7 @@
       "At least the following shadcn components are installed: accordion, button, card, toast/sonner, input, textarea",
       "All installed components render without import errors"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
@@ -39,7 +39,7 @@
       "embla-carousel-react is listed in package.json",
       "Carousel, CarouselContent, CarouselItem can be imported without errors"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "setup",
