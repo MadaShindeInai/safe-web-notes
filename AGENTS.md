@@ -17,6 +17,10 @@ pnpm lint:fix     # Lint autofix
 pnpm format:write # Format fix
 ```
 
+## Deployment
+
+Production URL: https://safewebnotes.vercel.app
+
 ## Architecture
 
 T3 Stack: Next.js 15 (App Router) + React 19 + Tailwind 4 + TS.
