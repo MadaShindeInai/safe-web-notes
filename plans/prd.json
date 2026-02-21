@@ -165,7 +165,7 @@
       "Viewport meta tag is set for mobile-first rendering",
       "Text and elements are legible and well-sized on a 375px-wide viewport"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "layout",
@@ -175,7 +175,7 @@
       "Content is horizontally centered on desktop",
       "Layout does not break or stretch awkwardly on a 1440px-wide viewport"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "layout",

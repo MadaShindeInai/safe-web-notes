@@ -20,8 +20,18 @@ embla-carousel-react@^8.6.0 added to package.json as a dependency.
 
 2026-02-21 — Vercel AI SDK installed
 
-ai@^6 + @ai-sdk/openai@^3 added to package.json. Provider: openai('gpt-4.1').
+ai 6.0.94 + @ai-sdk/openai 3.0.30 pinned in package.json. Provider: openai('gpt-4.1').
 OPENAI_API_KEY already validated in env.js.
 
-Next priority (PLANS.json): layout-root (unblocks entire UI chain), then auth-clerk-webhook
-(unblocks all server actions). Both are unblocked — highest impact tasks remaining.
+2026-02-21 — Root layout + desktop max-width
+
+layout.tsx: viewport export (width=device-width, initialScale=1), Geist variable on html,
+font-sans + bg-background on body, max-w-sm mx-auto content wrapper (pb-16 for tab bar),
+Toaster (bottom-center), title "Ralph". Old Footer removed.
+ThemeProvider (next-themes, attribute="class", defaultTheme="system", enableSystem) wraps
+app — dark mode follows OS setting automatically via .dark class on html.
+globals.css: .dark block + @custom-variant dark retained.
+suppressHydrationWarning on <html> to prevent next-themes mismatch warning.
+
+Next priority (PLANS.json): layout-tabbar — sticky bottom tab bar with 4 items.
+Unblocked by layout-root. This in turn unblocks all navigation and page tasks.
