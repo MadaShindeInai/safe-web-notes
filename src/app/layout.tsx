@@ -9,9 +9,8 @@ import { TabBar } from "~/components/layout/tab-bar";
 import { PwaRegister } from "~/components/pwa-register";
 
 export const metadata: Metadata = {
-  title: "Ralph",
+  title: "Life Helper",
   description: "Your personal life helper",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 export const viewport: Viewport = {
@@ -28,11 +27,9 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <ClerkProvider afterSignOutUrl="/sign-in">
       <html lang="en" className={geist.variable} suppressHydrationWarning>
-        <body className="min-h-screen bg-background font-sans">
+        <body className="bg-background min-h-screen font-sans">
           <ThemeProvider>
-            <main className="mx-auto w-full max-w-sm pb-16">
-              {children}
-            </main>
+            <main className="mx-auto w-full max-w-sm pb-16">{children}</main>
             <TabBar />
             <Toaster position="bottom-center" />
             <PwaRegister />
