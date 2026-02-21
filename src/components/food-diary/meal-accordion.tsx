@@ -22,7 +22,7 @@ export function MealAccordion({ mealType, entry }: Props) {
     <AccordionItem value={mealType}>
       <AccordionTrigger>{mealType}</AccordionTrigger>
       <AccordionContent>
-        <div className="space-y-4 px-1">
+        <div className="space-y-4">
           {!entry ? (
             <FoodEntryForm mealType={mealType} />
           ) : entry.feelings === null ? (

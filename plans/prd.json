@@ -802,6 +802,6 @@
       "AI Overview page matches Food Diary spacing conventions (top padding, section gap)",
       "All pages use consistent horizontal padding (no micro-padding artifacts like px-1)"
     ],
-    "passes": false
+    "passes": true
   }
 ]

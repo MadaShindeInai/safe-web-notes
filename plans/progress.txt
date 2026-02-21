@@ -212,3 +212,15 @@ tsconfig.json: added "public" to exclude array — service worker runs in
 pnpm check passes.
 
 Next priority: ui-polish (only remaining failing PRD item).
+
+2026-02-21 — UI polish (ui-polish)
+
+src/components/food-diary/meal-accordion.tsx: removed px-1 micro-padding from
+  accordion content inner div. AccordionContent has no built-in horizontal padding;
+  px-1 added a misaligned 4px inset vs trigger. Page wrapper p-4 already provides
+  16px horizontal padding — content now aligns with trigger edge.
+All other spacing criteria already passing: Food Diary + AI Overview both use
+  p-4 pb-20, date header has mb-4, space-y-4 between sections.
+pnpm check passes.
+
+All PRD items now pass. Project complete.
