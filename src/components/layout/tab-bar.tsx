@@ -16,7 +16,7 @@ export const TabBar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="border-border bg-background fixed right-0 bottom-0 left-0 z-50 border-t px-2">
+    <nav className="border-border bg-background fixed right-0 bottom-0 left-0 z-50 border-t px-2 py-2">
       <div className="mx-auto flex w-full max-w-sm items-stretch">
         {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href;
