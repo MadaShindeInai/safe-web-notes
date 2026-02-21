@@ -39,9 +39,8 @@ export function AnalysisActions({
           Generate your first analysis
         </Button>
         {!ready && (
-          <p className="text-center text-sm text-muted-foreground">
-            Log at least 14 meals to unlock AI analysis ({entryCount}/14 so
-            far)
+          <p className="text-muted-foreground text-center text-sm">
+            Log at least 14 meals to unlock AI analysis ({entryCount}/14 so far)
           </p>
         )}
       </div>
@@ -49,7 +48,7 @@ export function AnalysisActions({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2">
       <Button
         variant="outline"
         disabled={loading}
