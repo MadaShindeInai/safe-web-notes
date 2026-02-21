@@ -73,7 +73,7 @@ Next priority: schedule-page (now unblocked — schedule-server-actions + layout
 src/app/page.tsx: server component calls getScheduleEntries(), passes entries to WeekCarousel.
 src/components/schedule/week-carousel.tsx: 'use client'; useEmblaCarousel({ loop: true,
   startIndex: (getDay()+6)%7 }). Groups entries by weekday (Mon=0…Sun=6). 7 slides.
-src/components/schedule/day-slide.tsx: h-[calc(100dvh-4rem)], day name header, scrollable
+src/components/schedule/day-slide.tsx: h-[calc(100dvh-5rem)], day name header, scrollable
   activity list with pb-20 gap for future sticky form, 'No activities yet' empty state.
 src/components/schedule/activity-row.tsx: '{startTime} – {endTime} · {activity}' layout.
 pnpm check + tsc --noEmit pass.

@@ -72,11 +72,11 @@ export function DaySlide({ day, weekday, entries }: DaySlideProps) {
   }
 
   return (
-    <div className="flex h-[calc(100dvh-4rem)] flex-col">
+    <div className="flex h-[calc(100dvh-5rem)] flex-col">
       <h2 className="px-4 py-3 text-lg font-semibold">{day}</h2>
       <div className="flex-1 divide-y overflow-y-auto">
         {optimisticEntries.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-muted-foreground">
+          <p className="text-muted-foreground px-4 py-6 text-sm">
             No activities yet
           </p>
         ) : (

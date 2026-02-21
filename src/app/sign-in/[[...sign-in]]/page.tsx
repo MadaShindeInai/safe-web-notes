@@ -2,10 +2,7 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
   return (
-    <div
-      className="flex items-center justify-center"
-      style={{ minHeight: "calc(100dvh - 70px)" }}
-    >
+    <div className="flex h-[calc(100dvh-5rem)] items-center justify-center">
       <SignIn />
     </div>
   );
