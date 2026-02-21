@@ -1,4 +1,5 @@
 import { ActivityRow } from "./activity-row";
+import { AddActivityForm } from "./add-activity-form";
 
 type Entry = {
   id: string;
@@ -9,14 +10,15 @@ type Entry = {
 
 type DaySlideProps = {
   day: string;
+  weekday: number;
   entries: Entry[];
 };
 
-export function DaySlide({ day, entries }: DaySlideProps) {
+export function DaySlide({ day, weekday, entries }: DaySlideProps) {
   return (
     <div className="flex h-[calc(100dvh-4rem)] flex-col">
       <h2 className="px-4 py-3 text-lg font-semibold">{day}</h2>
-      <div className="flex-1 divide-y overflow-y-auto pb-20">
+      <div className="flex-1 divide-y overflow-y-auto">
         {entries.length === 0 ? (
           <p className="px-4 py-6 text-sm text-muted-foreground">
             No activities yet
@@ -32,6 +34,7 @@ export function DaySlide({ day, entries }: DaySlideProps) {
           ))
         )}
       </div>
+      <AddActivityForm weekday={weekday} />
     </div>
   );
 }

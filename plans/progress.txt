@@ -79,3 +79,16 @@ src/components/schedule/activity-row.tsx: '{startTime} – {endTime} · {activit
 pnpm check + tsc --noEmit pass.
 
 Next priority: schedule-form (AddActivityForm sticky at bottom of each DaySlide).
+
+2026-02-21 — Schedule form (AddActivityForm)
+
+src/components/schedule/add-activity-form.tsx: 'use client'; two time inputs (type=time) +
+  text input + Add button. Submit disabled until all fields filled. Calls createScheduleEntry
+  server action. On success: clears all fields, toast.success("Activity added"). On error:
+  inline <p className="text-destructive"> below form. sticky bottom-0 border-t bg-background.
+src/components/schedule/day-slide.tsx: added weekday: number prop, removed pb-20 placeholder,
+  mounts <AddActivityForm weekday={weekday} /> as last flex child.
+src/components/schedule/week-carousel.tsx: passes weekday={i} to each DaySlide.
+pnpm check + tsc --noEmit pass.
+
+Next priority: schedule-interactions (long-press delete + optimistic UI + overlap warning).

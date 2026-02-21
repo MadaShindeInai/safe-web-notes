@@ -331,7 +331,7 @@
       "The form remains visible (sticky/fixed) when scrolling through a long activity list",
       "The form is inside or visually associated with the current slide"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-form",
@@ -341,7 +341,7 @@
       "The input uses 24h format (e.g. 14:30, not 2:30 PM)",
       "User can select or type a valid time value"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-form",
@@ -351,7 +351,7 @@
       "The input uses 24h format (e.g. 14:30, not 2:30 PM)",
       "User can select or type a valid time value"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-form",
@@ -362,7 +362,7 @@
       "The button is disabled or shows validation when required fields are empty",
       "Pressing submit with valid data creates the activity"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-form",
@@ -373,7 +373,7 @@
       "The activity name input is cleared",
       "The form is ready for the next entry without manual clearing"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-interaction",

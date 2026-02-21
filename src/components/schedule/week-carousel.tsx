@@ -40,7 +40,7 @@ export function WeekCarousel({ entries }: WeekCarouselProps) {
       <div className="flex">
         {DAYS.map((day, i) => (
           <div key={day} className="min-w-0 shrink-0 grow-0 basis-full">
-            <DaySlide day={day} entries={byWeekday[i] ?? []} />
+            <DaySlide day={day} weekday={i} entries={byWeekday[i] ?? []} />
           </div>
         ))}
       </div>
