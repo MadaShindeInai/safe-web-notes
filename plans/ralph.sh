@@ -12,7 +12,7 @@ fi
 # This prompt is basic, we'll expand it later.
 for ((i=1; i<=$1; i++)); do
   result=$(docker sandbox run claude -p \
-"@some-plan-file.md @progress.txt \
+"@plans/PLANS.json @plans/progress.txt \
 1. Decide which task to work on next. \
 This should be the one YOU decide has the highest priority, \
 - not necessarily the first in the list. \

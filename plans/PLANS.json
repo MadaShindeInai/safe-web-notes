@@ -1,0 +1,544 @@
+[
+  {
+    "id": "setup-ai-sdk",
+    "prdDescription": "Install Vercel AI SDK",
+    "prdCategory": "setup",
+    "scope": {
+      "create": [],
+      "modify": ["package.json", "src/env.js", ".env.example"]
+    },
+    "blockedBy": [],
+    "implementation": "pnpm add ai @ai-sdk/openai. Provider: openai('gpt-4.1') from @ai-sdk/openai. Rename OPENAI_API_KEY already in env.js — no schema change needed. Verify generateObject/streamText imports resolve.",
+    "tests": [
+      "pnpm check passes",
+      "import { streamText } from 'ai' resolves without error",
+      "import { openai } from '@ai-sdk/openai' resolves without error",
+      "ai and @ai-sdk/openai present in package.json"
+    ],
+    "expectedResult": "ai and @ai-sdk/openai packages installed; openai provider importable; OPENAI_API_KEY validated in env.js"
+  },
+  {
+    "id": "auth-clerk-webhook",
+    "prdDescription": null,
+    "prdCategory": "auth",
+    "note": "Not in PRD but required — ScheduleEntry/FoodEntry/AiAnalysis FK to User.id. Without a User row, all insert operations throw FK constraint errors.",
+    "scope": {
+      "create": ["src/app/api/webhooks/clerk/route.ts"],
+      "modify": ["src/env.js", ".env.example"]
+    },
+    "blockedBy": [],
+    "implementation": "Add CLERK_WEBHOOK_SECRET to env.js server schema. Route handler: verify Svix signature with clerk/nextjs/server WebhookVerificationError, parse event type. On user.created: prisma.user.upsert({ where: { id: clerkId }, create: { id, email, name }, update: { email, name } }). On user.updated: same upsert. On user.deleted: prisma.user.delete (cascade deletes all entries).",
+    "tests": [
+      "pnpm check passes",
+      "POST /api/webhooks/clerk with invalid signature returns 400",
+      "POST /api/webhooks/clerk with valid user.created event creates User row in DB",
+      "CLERK_WEBHOOK_SECRET missing causes app startup failure"
+    ],
+    "expectedResult": "Clerk user.created/updated/deleted events are mirrored to the User table. All FK-dependent operations unblocked."
+  },
+  {
+    "id": "auth-redirect",
+    "prdDescription": "Unauthenticated users are redirected to Clerk sign-in",
+    "prdCategory": "auth",
+    "scope": {
+      "create": [],
+      "modify": ["src/middleware.ts"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Middleware already calls auth.protect() for non-public routes. Verify NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in is set. Add /api/webhooks/clerk to public routes so Clerk can POST it without a session. Ensure /food-diary and /ai-overview pages exist so redirect target is reachable.",
+    "tests": [
+      "pnpm check passes",
+      "Curl / without session cookie returns 302 to /sign-in",
+      "Curl /food-diary without session returns 302 to /sign-in",
+      "Curl /ai-overview without session returns 302 to /sign-in",
+      "POST /api/webhooks/clerk is reachable without auth (public route)"
+    ],
+    "expectedResult": "All protected routes redirect unauthenticated visitors to /sign-in; webhook route remains public."
+  },
+  {
+    "id": "auth-userid-access",
+    "prdDescription": "Clerk userId is accessible in server actions and API routes",
+    "prdCategory": "auth",
+    "scope": {
+      "create": ["src/lib/auth.ts"],
+      "modify": []
+    },
+    "blockedBy": ["auth-clerk-webhook"],
+    "implementation": "Create src/lib/auth.ts with a getRequiredUserId() helper: calls auth() from @clerk/nextjs/server, throws if userId is null. All server actions and route handlers use this helper. No direct auth() calls scattered in feature code.",
+    "tests": [
+      "pnpm check passes",
+      "getRequiredUserId() returns Clerk userId string in a server action context",
+      "getRequiredUserId() throws when called without a session",
+      "Schedule/food/AI server actions all use getRequiredUserId()"
+    ],
+    "expectedResult": "Centralized auth helper used in all server actions and API routes. FK-safe userId always available."
+  },
+  {
+    "id": "layout-root",
+    "prdDescription": "Root layout with light theme, Geist font, and mobile-first design",
+    "prdCategory": "layout",
+    "scope": {
+      "create": [],
+      "modify": ["src/app/layout.tsx", "src/styles/globals.css"]
+    },
+    "blockedBy": [],
+    "implementation": "layout.tsx: remove dark mode classes, set body bg-white, apply geist.className directly on body. Add viewport generateViewport export (width=device-width, initial-scale=1). globals.css: ensure no dark: variants in base styles. Remove placeholder Footer component — will be replaced by TabBar. Add <Toaster /> from sonner for global toast support.",
+    "tests": [
+      "pnpm check passes",
+      "Page background is white on 375px viewport",
+      "Geist font is visible on rendered text",
+      "viewport meta tag present in page source",
+      "No dark theme applied at any route"
+    ],
+    "expectedResult": "Clean white mobile-first layout. Geist font active. Sonner Toaster mounted globally."
+  },
+  {
+    "id": "layout-desktop-maxwidth",
+    "prdDescription": "Desktop max-width constraint with centered content",
+    "prdCategory": "layout",
+    "scope": {
+      "create": [],
+      "modify": ["src/app/layout.tsx"]
+    },
+    "blockedBy": ["layout-root"],
+    "implementation": "Wrap children in <main className='mx-auto w-full max-w-sm'> (max-w-sm = 384px, appropriate for a mobile-first PWA). Content stays centered on wide viewports without stretching.",
+    "tests": [
+      "pnpm check passes",
+      "At 1440px viewport width, content is horizontally centered",
+      "Content width does not exceed ~480px on any viewport",
+      "No horizontal scroll introduced"
+    ],
+    "expectedResult": "App renders as a centered column on desktop, matching the phone-width PWA aesthetic."
+  },
+  {
+    "id": "layout-tabbar",
+    "prdDescription": "Sticky bottom tab bar with 4 navigation items",
+    "prdCategory": "layout",
+    "scope": {
+      "create": ["src/components/layout/tab-bar.tsx"],
+      "modify": ["src/app/layout.tsx"]
+    },
+    "blockedBy": ["layout-root"],
+    "implementation": "TabBar is a 'use client' component. Four items: Schedule (/), Food Diary (/food-diary), AI Overview (/ai-overview), Settings (no route — triggers UserButton). Fixed bottom, full width, max-w-sm centered. Icons from lucide-react: CalendarDays, BookOpen, Sparkles, Settings2. Each item: icon + label, vertically stacked. Settings item renders <UserButton afterSignOutUrl='/sign-in' /> inline instead of a link. Mount TabBar in layout.tsx below the main content wrapper.",
+    "tests": [
+      "pnpm check passes",
+      "TabBar visible at bottom of viewport on /, /food-diary, /ai-overview",
+      "TabBar does not scroll with page content (position: fixed)",
+      "All 4 items have icon and label visible",
+      "Settings item shows Clerk UserButton"
+    ],
+    "expectedResult": "Persistent fixed bottom navigation with 4 tabs visible on all pages."
+  },
+  {
+    "id": "layout-tabbar-active",
+    "prdDescription": "Active tab visual indicator matches current route",
+    "prdCategory": "layout",
+    "scope": {
+      "create": [],
+      "modify": ["src/components/layout/tab-bar.tsx"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Use usePathname() from next/navigation. Compare pathname to each tab's href. Active: text-primary font-semibold (or accent color). Inactive: text-muted-foreground. Settings tab: always inactive appearance (no route to compare).",
+    "tests": [
+      "pnpm check passes",
+      "On /, Schedule tab has active styling; others do not",
+      "On /food-diary, Food Diary tab has active styling",
+      "On /ai-overview, AI Overview tab has active styling",
+      "Only one tab is active at a time"
+    ],
+    "expectedResult": "Current route tab is visually highlighted; others are muted."
+  },
+  {
+    "id": "nav-schedule-route",
+    "prdDescription": "Schedule tab navigates to the home route",
+    "prdCategory": "navigation",
+    "scope": {
+      "create": [],
+      "modify": ["src/components/layout/tab-bar.tsx"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Schedule tab uses <Link href='/'> from next/navigation. Client-side navigation, no full reload.",
+    "tests": [
+      "pnpm check passes",
+      "Tapping Schedule tab from /food-diary navigates to / without reload",
+      "/ renders the Day Schedule page content"
+    ],
+    "expectedResult": "Schedule tab is a Next.js Link to /."
+  },
+  {
+    "id": "nav-fooddiary-route",
+    "prdDescription": "Food Diary tab navigates to /food-diary",
+    "prdCategory": "navigation",
+    "scope": {
+      "create": ["src/app/food-diary/page.tsx"],
+      "modify": ["src/components/layout/tab-bar.tsx"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Create /food-diary/page.tsx placeholder (full implementation in fooddiary-* tasks). Food Diary tab is <Link href='/food-diary'>.",
+    "tests": [
+      "pnpm check passes",
+      "Tapping Food Diary tab navigates to /food-diary",
+      "/food-diary renders without 404"
+    ],
+    "expectedResult": "/food-diary route exists; tab links to it."
+  },
+  {
+    "id": "nav-aioverview-route",
+    "prdDescription": "AI Overview tab navigates to /ai-overview",
+    "prdCategory": "navigation",
+    "scope": {
+      "create": ["src/app/ai-overview/page.tsx"],
+      "modify": ["src/components/layout/tab-bar.tsx"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Create /ai-overview/page.tsx placeholder. AI Overview tab is <Link href='/ai-overview'>.",
+    "tests": [
+      "pnpm check passes",
+      "Tapping AI Overview tab navigates to /ai-overview",
+      "/ai-overview renders without 404"
+    ],
+    "expectedResult": "/ai-overview route exists; tab links to it."
+  },
+  {
+    "id": "settings-userbutton-modal",
+    "prdDescription": "Settings tab opens Clerk UserButton modal without route navigation",
+    "prdCategory": "settings",
+    "scope": {
+      "create": [],
+      "modify": ["src/components/layout/tab-bar.tsx"]
+    },
+    "blockedBy": ["layout-tabbar"],
+    "implementation": "Settings tab renders Clerk <UserButton> directly in the tab cell. The UserButton's appearance is customized to show only the Settings2 icon + 'Settings' label (using UserButton.UserProfilePage and appearance props). Clicking it opens Clerk's built-in modal overlay. URL does not change.",
+    "tests": [
+      "pnpm check passes",
+      "Tapping Settings tab opens Clerk modal overlay",
+      "Browser URL does not change after opening modal",
+      "No /settings route is navigated to"
+    ],
+    "expectedResult": "Clerk modal opens in-place from the tab bar. No routing occurs."
+  },
+  {
+    "id": "settings-clerk-profile",
+    "prdDescription": "Clerk modal supports profile management and sign out",
+    "prdCategory": "settings",
+    "scope": {
+      "create": [],
+      "modify": []
+    },
+    "blockedBy": ["settings-userbutton-modal"],
+    "implementation": "Fully handled by Clerk's UserButton modal. Ensure afterSignOutUrl='/sign-in' is set on UserButton. No custom code needed.",
+    "tests": [
+      "User can view profile info in modal",
+      "User can sign out from modal",
+      "After sign out, redirected to /sign-in"
+    ],
+    "expectedResult": "Out-of-the-box Clerk modal provides profile management and sign-out."
+  },
+  {
+    "id": "schedule-server-actions",
+    "prdDescription": "Server action to create / read / delete schedule entries",
+    "prdCategory": "schedule-server",
+    "coversMultiplePrd": [
+      "Server action to create a schedule entry for a weekday",
+      "Server action to read all schedule entries grouped by weekday",
+      "Server action to delete a schedule entry by ID"
+    ],
+    "scope": {
+      "create": ["src/server/actions/schedule.ts"],
+      "modify": []
+    },
+    "blockedBy": ["auth-userid-access"],
+    "implementation": "createScheduleEntry(weekday, startTime, endTime, activity): uses getRequiredUserId(), prisma.scheduleEntry.create, revalidatePath('/'); getScheduleEntries(): uses getRequiredUserId(), findMany where userId, orderBy startTime asc; deleteScheduleEntry(id): findFirst to verify ownership, then delete, revalidatePath('/'). All wrapped in try/catch, return { success, error } discriminated union.",
+    "tests": [
+      "pnpm check passes",
+      "createScheduleEntry inserts row with correct userId and weekday",
+      "getScheduleEntries returns only current user's entries",
+      "deleteScheduleEntry rejects deleting another user's entry",
+      "revalidatePath('/') called after create and delete"
+    ],
+    "expectedResult": "Three typed server actions in src/server/actions/schedule.ts. All return { success } | { error }."
+  },
+  {
+    "id": "schedule-page",
+    "prdDescription": "7-slide horizontal carousel + day header + activities list + empty state",
+    "prdCategory": "schedule-display",
+    "coversMultiplePrd": [
+      "7-slide horizontal carousel for the weekly schedule",
+      "Carousel wraps around infinitely",
+      "Carousel auto-scrolls to the current weekday on load",
+      "Day name header displayed on each carousel slide",
+      "Activities listed and sorted ascending by start time",
+      "Activity row displays time range in 24h format and activity name",
+      "Empty day shows placeholder text"
+    ],
+    "scope": {
+      "create": ["src/components/schedule/week-carousel.tsx", "src/components/schedule/day-slide.tsx", "src/components/schedule/activity-row.tsx"],
+      "modify": ["src/app/page.tsx"]
+    },
+    "blockedBy": ["schedule-server-actions", "layout-tabbar"],
+    "implementation": "page.tsx: server component; calls getScheduleEntries(), groups by weekday (0=Mon..6=Sun), passes to WeekCarousel. WeekCarousel: 'use client'; uses Embla Carousel with loop:true and startIndex = today's JS day (Sun=0 adjusted to Mon=0). 7 slides: Mon-Sun. DaySlide: renders day name header, activity list sorted by startTime, empty state 'No activities yet' in muted text. ActivityRow: '09:00 - 10:30 · Activity name'. Carousel has pb-20 to clear the sticky form.",
+    "tests": [
+      "pnpm check passes",
+      "/ renders 7 slides",
+      "First visible slide matches today's weekday",
+      "Swiping past Sunday wraps to Monday (loop enabled)",
+      "Activities sorted by startTime ascending",
+      "Day with no activities shows 'No activities yet'",
+      "Each activity row shows time range in HH:MM - HH:MM format"
+    ],
+    "expectedResult": "Full weekly schedule carousel, auto-positioned to today, with sorted activity rows per day."
+  },
+  {
+    "id": "schedule-form",
+    "prdDescription": "Inline activity form sticky at bottom of each day slide",
+    "prdCategory": "schedule-form",
+    "coversMultiplePrd": [
+      "Inline activity form is sticky at the bottom of each day slide",
+      "Start time picker input in 24h format",
+      "End time picker input in 24h format",
+      "Activity text input with submit button",
+      "Form clears after successful submission"
+    ],
+    "scope": {
+      "create": ["src/components/schedule/add-activity-form.tsx"],
+      "modify": ["src/components/schedule/day-slide.tsx"]
+    },
+    "blockedBy": ["schedule-server-actions", "schedule-page"],
+    "implementation": "AddActivityForm: 'use client'. Three inputs: startTime (type=time), endTime (type=time), activity (type=text). Submit calls createScheduleEntry server action. On success: reset all fields with useRef/useState, show success toast via sonner. On error: show inline error message below form. Form position: sticky bottom-0 bg-background border-t p-3. Submit button disabled when any field empty.",
+    "tests": [
+      "pnpm check passes",
+      "Form stays visible when scrolling through long activity list",
+      "Time inputs use 24h format natively",
+      "Submit with empty fields is disabled",
+      "After successful submit, all inputs are cleared",
+      "Success toast appears after creation"
+    ],
+    "expectedResult": "Sticky form at bottom of each day slide. Submits new activity, clears on success, shows inline error on failure."
+  },
+  {
+    "id": "schedule-interactions",
+    "prdDescription": "Long-press delete + optimistic UI + overlap validation",
+    "prdCategory": "schedule-interaction",
+    "coversMultiplePrd": [
+      "Long-press on activity row reveals delete option",
+      "Delete removes an individual activity",
+      "Optimistic UI update on activity creation",
+      "Overlap validation with visual warning that allows save"
+    ],
+    "scope": {
+      "create": [],
+      "modify": ["src/components/schedule/activity-row.tsx", "src/components/schedule/add-activity-form.tsx", "src/components/schedule/day-slide.tsx"]
+    },
+    "blockedBy": ["schedule-form"],
+    "implementation": "Long-press: onPointerDown sets a 500ms timeout; onPointerUp/onPointerLeave cancels it. On trigger: show delete button overlay on that row. Tapping elsewhere hides it. Delete calls deleteScheduleEntry and removes optimistically. Optimistic create: use useOptimistic (React 19) in DaySlide — append temp entry immediately, rollback on error. Overlap: in AddActivityForm, compare new time range against current day's entries before submit. If overlap found, display inline warning 'This overlaps with [activity]' but keep submit enabled.",
+    "tests": [
+      "pnpm check passes",
+      "500ms hold on activity row reveals delete button",
+      "Normal tap does not reveal delete",
+      "Delete button tap removes activity from list immediately",
+      "If delete server action fails, activity reappears",
+      "New activity appears in list before server confirms",
+      "If create fails, optimistic entry is removed with error message",
+      "Overlapping time range shows inline warning",
+      "Activity with overlap warning can still be saved"
+    ],
+    "expectedResult": "Touch-friendly delete via long-press. Optimistic create via useOptimistic. Non-blocking overlap warning."
+  },
+  {
+    "id": "fooddiary-server-actions",
+    "prdDescription": "Server actions for food diary create / read / update",
+    "prdCategory": "food-diary-server",
+    "coversMultiplePrd": [
+      "Server action to create a food entry with description only",
+      "Server action to read all food entries for today",
+      "Server action to update a food entry with feelings"
+    ],
+    "scope": {
+      "create": ["src/server/actions/food-diary.ts"],
+      "modify": []
+    },
+    "blockedBy": ["auth-userid-access"],
+    "implementation": "getTodayFoodEntries(): getRequiredUserId(), findMany where userId + date within today (00:00–23:59 UTC). createFoodEntry(mealType, description): create with date=today, feelings=null, revalidatePath('/food-diary'). updateFoodEntryFeelings(id, feelings): verify ownership, update feelings, revalidatePath('/food-diary'). Today's date: new Date() normalized to midnight UTC to match stored dates.",
+    "tests": [
+      "pnpm check passes",
+      "createFoodEntry inserts row with feelings=null",
+      "getTodayFoodEntries returns only today's entries for current user",
+      "Duplicate mealType on same day throws unique constraint error (caught and returned as error)",
+      "updateFoodEntryFeelings rejects update for another user's entry",
+      "revalidatePath('/food-diary') called after mutations"
+    ],
+    "expectedResult": "Three typed server actions in src/server/actions/food-diary.ts."
+  },
+  {
+    "id": "fooddiary-page",
+    "prdDescription": "Food diary page: date header + 5 meal accordions + entry states",
+    "prdCategory": "food-diary-display",
+    "coversMultiplePrd": [
+      "Current date displayed at top of Food Diary page",
+      "Five accordion sections for meal types",
+      "Maximum one entry per meal type per day enforced in UI",
+      "Accordion empty state shows food description form with feelings disabled",
+      "Accordion description-saved state enables feelings input",
+      "Both-saved state renders description and feelings as read-only",
+      "Food diary entries are locked once submitted",
+      "Meals not eaten have no record and no skip button"
+    ],
+    "scope": {
+      "create": ["src/components/food-diary/meal-accordion.tsx", "src/components/food-diary/food-entry-form.tsx", "src/components/food-diary/feelings-form.tsx"],
+      "modify": ["src/app/food-diary/page.tsx"]
+    },
+    "blockedBy": ["fooddiary-server-actions", "layout-tabbar"],
+    "implementation": "page.tsx: server component; calls getTodayFoodEntries(), renders today's date (formatted: 'Thursday, February 19, 2026'), then Accordion with 5 items: Breakfast, Lunch, Dinner, Supper, Party. MealAccordion receives entry|null. States: (1) no entry → FoodEntryForm (textarea + Save; feelings textarea hidden/disabled); (2) entry.feelings===null → description in read-only div + FeelingsForm (textarea + Save); (3) entry.feelings set → both description and feelings in read-only divs. No delete or edit buttons at any state. No skip button.",
+    "tests": [
+      "pnpm check passes",
+      "Today's date shown in 'Day, Month DD, YYYY' format",
+      "5 accordion sections visible with correct labels",
+      "Empty meal shows food description textarea + Save; feelings disabled",
+      "After saving description, description is read-only, feelings textarea appears",
+      "After saving feelings, both are read-only, no edit controls shown",
+      "Second Save for same mealType returns unique constraint error",
+      "No skip or delete buttons anywhere on the page"
+    ],
+    "expectedResult": "Food diary page with progressive accordion states: empty → desc saved → both saved (immutable)."
+  },
+  {
+    "id": "ai-server-route",
+    "prdDescription": "POST /api/ai/analyze — full AI analysis pipeline",
+    "prdCategory": "ai-server",
+    "coversMultiplePrd": [
+      "POST /api/ai/analyze route handler accepts mode parameter",
+      "AI system prompt configured as nutrition/wellness analyst",
+      "Incremental mode sends previous analysis plus new entries",
+      "Full mode sends all food entries for the user",
+      "AI output parsed and stored as structured JSON in AiAnalysis"
+    ],
+    "scope": {
+      "create": ["src/app/api/ai/analyze/route.ts", "src/lib/ai.ts"],
+      "modify": []
+    },
+    "blockedBy": ["setup-ai-sdk", "auth-userid-access"],
+    "implementation": "route.ts: parse body { mode: 'full'|'incremental' }, validate with zod. getRequiredUserId() via auth(). Full mode: fetch all FoodEntry for user. Incremental: fetch existing AiAnalysis, fetch FoodEntry where date > lastEntryDate. Build prompt: system = nutrition/wellness analyst persona instructed to correlate food + feelings. Use generateObject from ai with schema z.object({ recommended: z.array(z.object({ dish: z.string(), reason: z.string() })), notRecommended: z.array(...), avoidProducts: z.array(z.object({ product: z.string(), reason: z.string() })) }). Model: openai('gpt-4.1'). Upsert AiAnalysis with result, set lastEntryDate to newest entry date. Return 200. ai.ts: export the openai provider instance.",
+    "tests": [
+      "pnpm check passes",
+      "POST without auth returns 401",
+      "POST with invalid mode returns 400",
+      "Full mode queries all FoodEntry for user",
+      "Incremental mode only queries entries after lastEntryDate",
+      "Response is valid JSON with recommended/notRecommended/avoidProducts arrays",
+      "AiAnalysis row upserted with correct userId and lastEntryDate"
+    ],
+    "expectedResult": "POST /api/ai/analyze accepts mode, runs structured AI generation, upserts AiAnalysis."
+  },
+  {
+    "id": "ai-overview-page",
+    "prdDescription": "AI Overview page: cards + empty state + generate/update/regenerate buttons",
+    "prdCategory": "ai-display",
+    "coversMultiplePrd": [
+      "Three analysis cards for AI results",
+      "Each analysis card shows AI-generated content as a formatted list",
+      "Last updated timestamp indicator",
+      "Empty state with explanation and generate button",
+      "Generate button disabled until 14+ food entries with progress message",
+      "Update analysis button sends incremental data",
+      "Regenerate analysis button sends full data",
+      "Analysis action buttons disabled while processing",
+      "Processing toast notification on analysis trigger"
+    ],
+    "scope": {
+      "create": ["src/components/ai/analysis-card.tsx", "src/components/ai/analysis-actions.tsx"],
+      "modify": ["src/app/ai-overview/page.tsx"]
+    },
+    "blockedBy": ["ai-server-route", "layout-tabbar"],
+    "implementation": "page.tsx: server component; fetch AiAnalysis and total FoodEntry count for user. If no analysis: render empty state with explanation + GenerateButton (disabled if count < 14, shows 'X/14 meals logged'). If analysis exists: 'Last updated: [relative time]', three Cards (Recommended Dishes, Strictly Not Recommended, Products/Ingredients to Avoid), each renders its array as a list of {name + reason}. AnalysisActions: 'use client'; two buttons — 'Update based on latest data' (incremental) and 'Regenerate from full data' (full). On click: set loading=true (disables both buttons), POST /api/ai/analyze, show sonner toast 'Analysis in progress. Results will appear shortly — please refresh.', loading stays true until component unmounts (fire-and-forget).",
+    "tests": [
+      "pnpm check passes",
+      "No analysis → empty state visible, generate button present",
+      "With < 14 entries: button disabled, shows 'X/14 meals logged'",
+      "With >= 14 entries: button enabled",
+      "With analysis: 3 cards visible with lists of items",
+      "Last updated timestamp shown",
+      "Clicking Update triggers POST with mode=incremental",
+      "Clicking Regenerate triggers POST with mode=full",
+      "Both buttons disabled while request in flight",
+      "Toast appears immediately after button click"
+    ],
+    "expectedResult": "AI overview page with progressive states: empty → analysis cards. Fire-and-forget generation with toast feedback."
+  },
+  {
+    "id": "pwa-manifest",
+    "prdDescription": "Web app manifest + standalone display + portrait orientation",
+    "prdCategory": "pwa",
+    "coversMultiplePrd": [
+      "Web app manifest with app name, icons, and theme color",
+      "PWA display mode set to standalone",
+      "PWA orientation set to portrait"
+    ],
+    "scope": {
+      "create": ["public/manifest.json", "public/icons/icon-192.png", "public/icons/icon-512.png"],
+      "modify": ["src/app/layout.tsx"]
+    },
+    "blockedBy": [],
+    "implementation": "manifest.json: name='Ralph', short_name='Ralph', display='standalone', orientation='portrait', theme_color='#ffffff', background_color='#ffffff', icons=[{src:'/icons/icon-192.png',sizes:'192x192'},{src:'/icons/icon-512.png',sizes:'512x512'}]. Generate simple icons (solid bg with letter R) or use a placeholder PNG. Link via Next.js metadata.manifest in layout.tsx or place manifest.json in app/ as a route file using Next.js manifest.ts convention.",
+    "tests": [
+      "pnpm check passes",
+      "GET /manifest.json returns valid JSON with name, icons, display, orientation",
+      "display === 'standalone'",
+      "orientation === 'portrait'",
+      "Both icon files are accessible at their declared URLs",
+      "<link rel='manifest'> present in page source"
+    ],
+    "expectedResult": "Valid web manifest linked from layout. App name, icons, standalone display, portrait orientation configured."
+  },
+  {
+    "id": "pwa-service-worker",
+    "prdDescription": "App shell cached for instant load via service worker + app installable",
+    "prdCategory": "pwa",
+    "coversMultiplePrd": [
+      "App shell cached for instant load via service worker",
+      "App is installable on mobile devices"
+    ],
+    "scope": {
+      "create": [],
+      "modify": ["package.json", "next.config.js"]
+    },
+    "blockedBy": ["pwa-manifest", "layout-root"],
+    "implementation": "pnpm add next-pwa. In next.config.js: import withPWA from 'next-pwa'; export default withPWA({ dest: 'public', disable: process.env.NODE_ENV === 'development' })(nextConfig). next-pwa auto-generates sw.js and workbox scripts into /public. App shell (HTML + JS bundles) is precached. Data requests remain network-first.",
+    "tests": [
+      "pnpm build succeeds",
+      "public/sw.js generated after build",
+      "public/workbox-*.js generated after build",
+      "Service worker registered in browser DevTools after visiting app",
+      "Chrome Lighthouse PWA audit passes installability check"
+    ],
+    "expectedResult": "Service worker auto-generated by next-pwa on build. App shell cached. Add-to-homescreen prompt eligible."
+  },
+  {
+    "id": "feedback-toast-and-errors",
+    "prdDescription": "Success toasts + inline error messages",
+    "prdCategory": "feedback",
+    "coversMultiplePrd": [
+      "Success feedback via toast notifications at the bottom of the screen",
+      "Error feedback via inline messages next to the relevant form field"
+    ],
+    "scope": {
+      "create": [],
+      "modify": [
+        "src/app/layout.tsx",
+        "src/components/schedule/add-activity-form.tsx",
+        "src/components/food-diary/food-entry-form.tsx",
+        "src/components/food-diary/feelings-form.tsx"
+      ]
+    },
+    "blockedBy": ["layout-root", "schedule-form", "fooddiary-page"],
+    "implementation": "<Toaster position='bottom-center' /> already in layout (from layout-root task). All forms: on server action success call toast.success('Activity added') / toast.success('Saved'). On server action error: set an errorMsg state variable, render <p className='text-destructive text-sm'>{errorMsg}</p> below the relevant input. Never use toast for errors.",
+    "tests": [
+      "pnpm check passes",
+      "Creating a schedule activity shows success toast at bottom",
+      "Saving food description shows success toast",
+      "Saving feelings shows success toast",
+      "Server error on schedule create shows inline message below form, not a toast",
+      "Toaster is positioned at bottom-center"
+    ],
+    "expectedResult": "All mutations show bottom toasts on success. All errors shown inline near the relevant form field."
+  }
+]

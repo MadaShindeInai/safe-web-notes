@@ -1,7 +1,7 @@
 ---
 alwaysApply: true
 ---
-Use pnpm for package management. Package versions should be pinned.
+Use pnpm for package management. Package versions must be pinned.
 Use kebab-case for file names. Use PascalCase for component names. Use camelCase for variable names. Use SCREAMING_SNAKE_CASE for environment variables.
 
 Export variables or functions only if they are used outside of the file.
