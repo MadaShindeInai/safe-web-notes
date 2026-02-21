@@ -56,3 +56,14 @@ src/lib/auth.ts: getRequiredUserId() — calls auth(), throws "Unauthorized" if 
 All server actions must use this helper instead of calling auth() directly.
 
 Next priority: schedule-server-actions (now unblocked — auth-userid-access complete).
+
+2026-02-21 — Schedule server actions
+
+Created src/server/actions/schedule.ts with three 'use server' actions:
+- createScheduleEntry(weekday, startTime, endTime, activity): inserts row, revalidatePath('/').
+- getScheduleEntries(): findMany filtered by userId, ordered by startTime asc.
+- deleteScheduleEntry(id): verifies ownership via findFirst, deletes, revalidatePath('/').
+All mutations return { success: true } | { success: false; error: string }.
+pnpm check + tsc --noEmit both pass.
+
+Next priority: schedule-page (now unblocked — schedule-server-actions + layout-tabbar complete).

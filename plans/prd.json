@@ -428,7 +428,7 @@
       "A new ScheduleEntry row is inserted into the database",
       "The action revalidates the schedule data after creation"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-server",
@@ -439,7 +439,7 @@
       "Only entries belonging to the current user are returned",
       "Entries are ordered by startTime ascending within each weekday"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "schedule-server",
@@ -450,7 +450,7 @@
       "The entry is removed from the database",
       "The action revalidates the schedule data after deletion"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-display",
