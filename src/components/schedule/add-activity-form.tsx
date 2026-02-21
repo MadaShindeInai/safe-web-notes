@@ -19,7 +19,7 @@ export function AddActivityForm({ weekday }: AddActivityFormProps) {
 
   const disabled = !startTime || !endTime || !activity || pending;
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setPending(true);
