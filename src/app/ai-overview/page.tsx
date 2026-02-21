@@ -17,7 +17,7 @@ export default async function AiOverviewPage() {
       <div className="space-y-4 p-4 pb-20">
         <h1 className="text-xl font-semibold">AI Overview</h1>
         <p className="text-sm text-muted-foreground">
-          Your personal nutrition analyst. Once you've logged enough meals,
+          Your personal nutrition analyst. Once you&apos;ve logged enough meals,
           Ralph will analyze your food diary and correlate what you eat with how
           you feel — generating personalized recommendations.
         </p>

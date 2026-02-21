@@ -730,7 +730,7 @@
       "The manifest includes a theme_color value",
       "The manifest is linked in the root layout via <link rel='manifest'> or metadata"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "pwa",
@@ -739,7 +739,7 @@
       "The manifest.json display property is set to 'standalone'",
       "When installed on a mobile device, the app opens without browser chrome"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "pwa",
@@ -748,7 +748,7 @@
       "The manifest.json orientation property is set to 'portrait'",
       "The installed app defaults to portrait orientation on mobile"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "pwa",

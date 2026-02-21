@@ -171,3 +171,23 @@ src/components/ai/analysis-actions.tsx: 'use client'; loading state disables all
 JSON fields (recommended, notRecommended, avoidProducts) cast from Prisma.JsonValue.
 
 Next priority: pwa-manifest (no remaining dependencies).
+
+2026-02-21 — PWA manifest (pwa-manifest)
+
+src/app/manifest.ts: Next.js file convention; auto-links <link rel="manifest"> in all pages.
+  name/short_name='Ralph', display='standalone', orientation='portrait',
+  background_color/theme_color='#ffffff'. Icons: /icons/icon-192.png (192x192),
+  /icons/icon-512.png (512x512, purpose='any'), /icons/icon-512.png (purpose='maskable').
+public/icons/icon-192.png + icon-512.png: generated via scripts/gen-icons.mjs (Node.js built-ins
+  only — zlib deflate + hand-rolled CRC32 PNG encoder). Indigo (#4f46e5) rounded-rect background
+  with white "R" letter. Valid PNG confirmed by `file` command.
+Also fixed three pre-existing lint errors in earlier files:
+  - ai-overview/page.tsx: escaped apostrophe in JSX text (react/no-unescaped-entities)
+  - api/ai/analyze/route.ts: `let entries` → `const entries`
+  - api/ai/analyze/route.ts: refactored IIFE to return { entries, previousAnalysis } tuple
+    instead of mutating an outer variable (fixes @typescript-eslint/restrict-template-expressions
+    false-positive caused by TypeScript refusing to narrow closure-mutated `let` vars).
+pnpm check passes.
+
+Next priority: pwa-service-worker (now unblocked — pwa-manifest complete).
+After that: ui-polish (spacing review — only remaining failing PRD item).

@@ -36,14 +36,19 @@ export async function POST(req: Request) {
   }
 
   const { mode } = parsed.data;
-  let previousAnalysis: string | null = null;
 
-  let entries = await (async () => {
+  const { entries, previousAnalysis } = await (async (): Promise<{
+    entries: Awaited<ReturnType<typeof prisma.foodEntry.findMany>>;
+    previousAnalysis: string | null;
+  }> => {
     if (mode === "full") {
-      return prisma.foodEntry.findMany({
-        where: { userId },
-        orderBy: { date: "asc" },
-      });
+      return {
+        entries: await prisma.foodEntry.findMany({
+          where: { userId },
+          orderBy: { date: "asc" },
+        }),
+        previousAnalysis: null,
+      };
     }
 
     const existing = await prisma.aiAnalysis.findUnique({
@@ -51,21 +56,26 @@ export async function POST(req: Request) {
     });
 
     if (existing) {
-      previousAnalysis = JSON.stringify({
-        recommended: existing.recommended,
-        notRecommended: existing.notRecommended,
-        avoidProducts: existing.avoidProducts,
-      });
-      return prisma.foodEntry.findMany({
-        where: { userId, date: { gt: existing.lastEntryDate } },
-        orderBy: { date: "asc" },
-      });
+      return {
+        entries: await prisma.foodEntry.findMany({
+          where: { userId, date: { gt: existing.lastEntryDate } },
+          orderBy: { date: "asc" },
+        }),
+        previousAnalysis: JSON.stringify({
+          recommended: existing.recommended,
+          notRecommended: existing.notRecommended,
+          avoidProducts: existing.avoidProducts,
+        }),
+      };
     }
 
-    return prisma.foodEntry.findMany({
-      where: { userId },
-      orderBy: { date: "asc" },
-    });
+    return {
+      entries: await prisma.foodEntry.findMany({
+        where: { userId },
+        orderBy: { date: "asc" },
+      }),
+      previousAnalysis: null,
+    };
   })();
 
   if (entries.length === 0) {
@@ -82,10 +92,10 @@ export async function POST(req: Request) {
     )
     .join("\n");
 
-  const userPrompt =
-    mode === "incremental" && previousAnalysis
-      ? `Previous analysis:\n${previousAnalysis}\n\nNew food entries since last analysis:\n${entriesText}\n\nPlease update your analysis incorporating the new entries.`
-      : `Food diary entries:\n${entriesText}`;
+  let userPrompt = `Food diary entries:\n${entriesText}`;
+  if (mode === "incremental" && previousAnalysis) {
+    userPrompt = `Previous analysis:\n${previousAnalysis}\n\nNew food entries since last analysis:\n${entriesText}\n\nPlease update your analysis incorporating the new entries.`;
+  }
 
   const { object } = await generateObject({
     model: openai("gpt-4.1"),
