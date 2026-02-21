@@ -461,7 +461,7 @@
       "The date always reflects today's date",
       "The date format is clear and human-readable (e.g. 'Thursday, February 19, 2026')"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-display",
@@ -472,7 +472,7 @@
       "Sections appear in the order listed above",
       "Each accordion can be expanded and collapsed independently"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-display",
@@ -482,7 +482,7 @@
       "There is no way to create a second entry for the same meal type on the same day",
       "The UI reflects whether an entry already exists for each meal type"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-display",
@@ -493,7 +493,7 @@
       "The feelings textarea is either hidden or visually disabled",
       "User cannot input or save feelings before saving the food description"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-display",
@@ -504,7 +504,7 @@
       "A Save button is present for the feelings field",
       "User can type in the feelings textarea and submit"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-interaction",
@@ -514,7 +514,7 @@
       "No edit or delete buttons are shown",
       "The accordion can still be expanded/collapsed to view the content"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-interaction",
@@ -524,7 +524,7 @@
       "After feelings are saved, there is no way to edit or delete them from the UI",
       "No delete button or edit action is available for any submitted entry"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-interaction",
@@ -534,7 +534,7 @@
       "There is no 'skip' or 'didn't eat' button",
       "Unlogged meals do not create any database record"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "food-diary-server",
@@ -779,7 +779,7 @@
       "The toast auto-dismisses after a few seconds",
       "The toast message describes the successful action"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "feedback",
@@ -790,6 +790,6 @@
       "Error messages are descriptive and help the user fix the issue",
       "Errors do not use toast notifications (those are reserved for success)"
     ],
-    "passes": false
+    "passes": true
   }
 ]

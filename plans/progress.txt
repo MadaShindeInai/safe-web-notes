@@ -119,3 +119,20 @@ todayUTC() helper: Date.UTC(year, month, day) — normalises to midnight UTC to 
 pnpm check passes.
 
 Next priority: fooddiary-page (unblocked — fooddiary-server-actions + layout-tabbar complete).
+
+2026-02-21 — Food diary page (fooddiary-page)
+
+src/app/food-diary/page.tsx: server component; calls getTodayFoodEntries(), formats today's
+  date via toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }),
+  renders shadcn Accordion (type="multiple") with one MealAccordion per meal type.
+src/components/food-diary/meal-accordion.tsx: 3-state logic — no entry → FoodEntryForm;
+  entry.feelings===null → read-only description + FeelingsForm; both set → both read-only.
+  No edit/delete buttons at any state.
+src/components/food-diary/food-entry-form.tsx: 'use client'; textarea + Save; calls
+  createFoodEntry; toast.success on success; inline text-destructive error on failure.
+src/components/food-diary/feelings-form.tsx: 'use client'; textarea + Save; calls
+  updateFoodEntryFeelings; toast.success on success; inline error on failure.
+feedback-toast-and-errors also marked complete: all forms (schedule + food diary) already
+  implement toast.success on success and inline p.text-destructive on error.
+
+Next priority: ai-server-route (unblocked — setup-ai-sdk + auth-userid-access complete).
