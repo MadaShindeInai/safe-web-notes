@@ -2,8 +2,10 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
+// Maskable icon: icon must fill the entire canvas.
+// Safe zone is the inner 80%, so we add ~10% padding on each side.
 export function GET() {
-  const size = 192;
+  const size = 512;
 
   return new ImageResponse(
     (
@@ -20,9 +22,9 @@ export function GET() {
         <span
           style={{
             color: "black",
-            fontSize: 72,
+            fontSize: 154,
             fontWeight: 700,
-            letterSpacing: "-2px",
+            letterSpacing: "-5px",
           }}
         >
           LH

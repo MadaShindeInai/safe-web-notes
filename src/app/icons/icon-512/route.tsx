@@ -3,12 +3,14 @@ import { ImageResponse } from "next/og";
 export const runtime = "edge";
 
 export function GET() {
+  const size = 512;
+
   return new ImageResponse(
     (
       <div
         style={{
-          width: 512,
-          height: 512,
+          width: size,
+          height: size,
           background: "#EAB308",
           display: "flex",
           alignItems: "center",
@@ -17,7 +19,7 @@ export function GET() {
       >
         <span
           style={{
-            color: "white",
+            color: "black",
             fontSize: 192,
             fontWeight: 700,
             letterSpacing: "-6px",
@@ -27,6 +29,6 @@ export function GET() {
         </span>
       </div>
     ),
-    { width: 512, height: 512 },
+    { width: size, height: size },
   );
 }
