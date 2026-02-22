@@ -17,3 +17,12 @@ Next: Item 2+3 — settings.ts server actions (getVisibleRoutes + updateVisibleR
 - PRD items "settings-server" (both) → passes: true
 
 Next: Item 4+5 — settings page (src/app/settings/page.tsx) + RouteToggleForm component
+
+2026-02-22 — Item 4+5 (settings page + RouteToggleForm) — DONE
+- Created src/app/settings/page.tsx: async server component, auth guard (redirect /sign-in), renders UserButton showName + RouteToggleForm
+- Created src/components/settings/route-toggle-form.tsx: client component, 3 checkboxes (Schedule/Food Diary/AI Overview), useTransition for pending, success toast via sonner, inline error display, all inputs disabled while pending
+- KNOWN_ROUTES imported from settings.ts to keep route list in one place
+- pnpm check passes clean
+- PRD items "settings-page" (both) → passes: true
+
+Next: Item 6+7 — refactor TabBar (Settings tab as Link + visibleRoutes prop filtering)

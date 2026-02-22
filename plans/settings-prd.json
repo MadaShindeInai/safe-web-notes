@@ -41,7 +41,7 @@
       "Page renders a RouteToggleForm component below the UserButton",
       "Visiting /settings without authentication redirects to the Clerk sign-in page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings-page",
@@ -52,7 +52,7 @@
       "Server or validation errors are displayed inline inside the form (not as a toast)",
       "All checkboxes and the save button are disabled while the server action is pending"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "navigation",
