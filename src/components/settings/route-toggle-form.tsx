@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateVisibleRoutes, KNOWN_ROUTES } from "~/server/actions/settings";
+import { updateVisibleRoutes } from "~/server/actions/settings";
+import { KNOWN_ROUTES } from "~/lib/settings-constants";
 import { Button } from "~/components/ui/button";
 
 const ROUTE_LABELS: Record<string, string> = {

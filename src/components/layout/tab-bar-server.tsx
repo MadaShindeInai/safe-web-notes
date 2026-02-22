@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "~/lib/prisma";
 import { TabBar } from "./tab-bar";
-import { DEFAULT_ROUTES } from "~/server/actions/settings";
+import { DEFAULT_ROUTES } from "~/lib/settings-constants";
 
 export const TabBarServer = async () => {
   const { userId } = await auth();

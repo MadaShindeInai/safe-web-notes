@@ -3,9 +3,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/prisma";
-
-export const DEFAULT_ROUTES = ["/"] as const;
-export const KNOWN_ROUTES = ["/", "/food-diary", "/ai-overview"] as const;
+import { DEFAULT_ROUTES, KNOWN_ROUTES } from "~/lib/settings-constants";
 
 type ActionResult<T = undefined> =
   | (T extends undefined ? { success: true } : { success: true; data: T })
