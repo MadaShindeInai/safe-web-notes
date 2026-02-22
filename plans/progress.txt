@@ -223,4 +223,43 @@ All other spacing criteria already passing: Food Diary + AI Overview both use
   p-4 pb-20, date header has mb-4, space-y-4 between sections.
 pnpm check passes.
 
+2026-02-22 — Item 1 (database: visibleRoutes field) — DONE
+- Added `visibleRoutes Json?` to User model in prisma/schema.prisma
+- Ran migration: 20260222174421_add_user_visible_routes
+- migration.sql: ALTER TABLE "User" ADD COLUMN "visibleRoutes" JSONB
+- Prisma client regenerated clean
+- PRD item "database" → passes: true
+
+Next: Item 2+3 — settings.ts server actions (getVisibleRoutes + updateVisibleRoutes)
+
+2026-02-22 — Item 2+3 (settings-server: getVisibleRoutes + updateVisibleRoutes) — DONE
+- Created src/server/actions/settings.ts
+- Exported DEFAULT_ROUTES=['/'] and KNOWN_ROUTES=['/','/food-diary','/ai-overview']
+- getVisibleRoutes(): uses auth(), returns DEFAULT_ROUTES for unauthenticated/null, else stored array
+- updateVisibleRoutes(): validates subset of KNOWN_ROUTES, updates DB, calls revalidatePath('/', 'layout')
+- Also ran `pnpm prisma generate` (client was stale; schema already had visibleRoutes from prior migration)
+- pnpm check passes clean
+- PRD items "settings-server" (both) → passes: true
+
+Next: Item 4+5 — settings page (src/app/settings/page.tsx) + RouteToggleForm component
+
+2026-02-22 — Item 4+5 (settings page + RouteToggleForm) — DONE
+- Created src/app/settings/page.tsx: async server component, auth guard (redirect /sign-in), renders UserButton showName + RouteToggleForm
+- Created src/components/settings/route-toggle-form.tsx: client component, 3 checkboxes (Schedule/Food Diary/AI Overview), useTransition for pending, success toast via sonner, inline error display, all inputs disabled while pending
+- KNOWN_ROUTES imported from settings.ts to keep route list in one place
+- pnpm check passes clean
+- PRD items "settings-page" (both) → passes: true
+
+Next: Item 6+7 — refactor TabBar (Settings tab as Link + visibleRoutes prop filtering)
+
+2026-02-22 — Item 6+7+8 (navigation + layout: TabBar refactor + TabBarServer) — DONE
+- tab-bar.tsx: replaced UserButton div with <Link href="/settings"> using Settings icon from lucide-react
+- tab-bar.tsx: added visibleRoutes: string[] prop; NAV_ITEMS filtered by visibleRoutes; Settings Link always rendered
+- tab-bar.tsx: removed UserButton import from @clerk/nextjs
+- Created src/components/layout/tab-bar-server.tsx: async server component, calls auth() + prisma.user.findUnique, passes visibleRoutes to TabBar (falls back to DEFAULT_ROUTES)
+- layout.tsx: replaced TabBar import with TabBarServer; replaced <TabBar /> with <TabBarServer />
+- Items 6+7+8 done together (tightly coupled: 6+7 changed TabBar signature requiring layout.tsx update)
+- pnpm check passes clean
+- PRD items "navigation" (both) + "layout" → passes: true
+
 All PRD items now pass. Project complete.
