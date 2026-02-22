@@ -1,0 +1,90 @@
+[
+  {
+    "category": "database",
+    "description": "Add visibleRoutes Json? field to User Prisma model",
+    "steps": [
+      "User model exists in prisma/schema.prisma",
+      "User model has a visibleRoutes Json? field (nullable)",
+      "npx prisma migrate dev runs without errors after the field is added",
+      "visibleRoutes column exists in the User table in PostgreSQL"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings-server",
+    "description": "getVisibleRoutes() returns stored routes or DEFAULT_ROUTES=['/'] when null",
+    "steps": [
+      "A getVisibleRoutes() server function exists in the codebase",
+      "When the user's visibleRoutes is null in the DB, the function returns ['/']",
+      "When the user's visibleRoutes is set, the function returns the stored array",
+      "Function resolves the authenticated Clerk userId before querying"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings-server",
+    "description": "updateVisibleRoutes() validates subset of KNOWN_ROUTES, updates DB, revalidates layout",
+    "steps": [
+      "A updateVisibleRoutes() server action exists",
+      "Action rejects payloads containing routes not in KNOWN_ROUTES ('/', '/food-diary', '/ai-overview') and returns an error",
+      "On valid input, updates visibleRoutes on the User record in the DB",
+      "Calls revalidatePath on the root layout path after a successful update"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings-page",
+    "description": "/settings page renders Clerk UserButton (showName) and RouteToggleForm",
+    "steps": [
+      "src/app/settings/page.tsx exists",
+      "Page renders the Clerk <UserButton showName /> component",
+      "Page renders a RouteToggleForm component below the UserButton",
+      "Visiting /settings without authentication redirects to the Clerk sign-in page"
+    ],
+    "passes": false
+  },
+  {
+    "category": "settings-page",
+    "description": "RouteToggleForm: 3 checkboxes (Schedule/FoodDiary/AIOverview), save toast, inline error, disabled while pending",
+    "steps": [
+      "Form renders 3 checkboxes labeled Schedule (/), Food Diary (/food-diary), and AI Overview (/ai-overview)",
+      "Submitting the form shows a success toast notification at the bottom of the screen",
+      "Server or validation errors are displayed inline inside the form (not as a toast)",
+      "All checkboxes and the save button are disabled while the server action is pending"
+    ],
+    "passes": false
+  },
+  {
+    "category": "navigation",
+    "description": "Settings tab is <Link href='/settings'> with Settings lucide icon; active when pathname === '/settings'",
+    "steps": [
+      "The Settings tab in TabBar is rendered as a Next.js <Link href='/settings'> element",
+      "The Settings tab displays the Settings (gear) icon from lucide-react",
+      "The Settings tab is visually highlighted when the current pathname is '/settings'",
+      "The Settings tab is not highlighted on any other route (/, /food-diary, /ai-overview)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "navigation",
+    "description": "TabBar filters NAV_ITEMS to visibleRoutes prop; Settings tab always rendered",
+    "steps": [
+      "TabBar component accepts a visibleRoutes: string[] prop",
+      "Schedule, Food Diary, and AI Overview tabs are only rendered when their route appears in visibleRoutes",
+      "The Settings tab is rendered regardless of the visibleRoutes value",
+      "Passing an empty array for visibleRoutes still renders the Settings tab alone"
+    ],
+    "passes": false
+  },
+  {
+    "category": "layout",
+    "description": "TabBarServer async server component: auth() + prisma query → passes visibleRoutes to TabBar; zero CLS",
+    "steps": [
+      "A TabBarServer async server component exists that calls auth() and queries the User record via Prisma",
+      "TabBarServer passes the resolved visibleRoutes array as a prop to the TabBar client component",
+      "The root layout renders TabBarServer instead of TabBar directly",
+      "TabBar receives visibleRoutes synchronously on first render so there is no layout shift (CLS) from a client-side fetch"
+    ],
+    "passes": false
+  }
+]
