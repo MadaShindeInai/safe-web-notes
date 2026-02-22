@@ -1,0 +1,8 @@
+2026-02-22 — Item 1 (database: visibleRoutes field) — DONE
+- Added `visibleRoutes Json?` to User model in prisma/schema.prisma
+- Ran migration: 20260222174421_add_user_visible_routes
+- migration.sql: ALTER TABLE "User" ADD COLUMN "visibleRoutes" JSONB
+- Prisma client regenerated clean
+- PRD item "database" → passes: true
+
+Next: Item 2+3 — settings.ts server actions (getVisibleRoutes + updateVisibleRoutes)

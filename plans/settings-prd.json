@@ -8,7 +8,7 @@
       "npx prisma migrate dev runs without errors after the field is added",
       "visibleRoutes column exists in the User table in PostgreSQL"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings-server",

@@ -11,6 +11,7 @@ model User {
   id              String          @id
   email           String          @unique
   name            String?
+  visibleRoutes   Json?           // string[] | null; null → DEFAULT_ROUTES
   scheduleEntries ScheduleEntry[]
   foodEntries     FoodEntry[]
   aiAnalysis      AiAnalysis?
