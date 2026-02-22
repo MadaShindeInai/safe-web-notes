@@ -19,7 +19,7 @@
       "When the user's visibleRoutes is set, the function returns the stored array",
       "Function resolves the authenticated Clerk userId before querying"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings-server",
@@ -30,7 +30,7 @@
       "On valid input, updates visibleRoutes on the User record in the DB",
       "Calls revalidatePath on the root layout path after a successful update"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "settings-page",

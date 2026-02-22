@@ -6,3 +6,14 @@
 - PRD item "database" → passes: true
 
 Next: Item 2+3 — settings.ts server actions (getVisibleRoutes + updateVisibleRoutes)
+
+2026-02-22 — Item 2+3 (settings-server: getVisibleRoutes + updateVisibleRoutes) — DONE
+- Created src/server/actions/settings.ts
+- Exported DEFAULT_ROUTES=['/'] and KNOWN_ROUTES=['/','/food-diary','/ai-overview']
+- getVisibleRoutes(): uses auth(), returns DEFAULT_ROUTES for unauthenticated/null, else stored array
+- updateVisibleRoutes(): validates subset of KNOWN_ROUTES, updates DB, calls revalidatePath('/', 'layout')
+- Also ran `pnpm prisma generate` (client was stale; schema already had visibleRoutes from prior migration)
+- pnpm check passes clean
+- PRD items "settings-server" (both) → passes: true
+
+Next: Item 4+5 — settings page (src/app/settings/page.tsx) + RouteToggleForm component

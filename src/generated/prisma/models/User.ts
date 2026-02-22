@@ -40,6 +40,7 @@ export type UserCountAggregateOutputType = {
   id: number
   email: number
   name: number
+  visibleRoutes: number
   _all: number
 }
 
@@ -60,6 +61,7 @@ export type UserCountAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  visibleRoutes?: true
   _all?: true
 }
 
@@ -139,6 +141,7 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   name: string | null
+  visibleRoutes: runtime.JsonValue | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -166,6 +169,7 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  visibleRoutes?: Prisma.JsonNullableFilter<"User">
   scheduleEntries?: Prisma.ScheduleEntryListRelationFilter
   foodEntries?: Prisma.FoodEntryListRelationFilter
   aiAnalysis?: Prisma.XOR<Prisma.AiAnalysisNullableScalarRelationFilter, Prisma.AiAnalysisWhereInput> | null
@@ -175,6 +179,7 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibleRoutes?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduleEntries?: Prisma.ScheduleEntryOrderByRelationAggregateInput
   foodEntries?: Prisma.FoodEntryOrderByRelationAggregateInput
   aiAnalysis?: Prisma.AiAnalysisOrderByWithRelationInput
@@ -187,6 +192,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  visibleRoutes?: Prisma.JsonNullableFilter<"User">
   scheduleEntries?: Prisma.ScheduleEntryListRelationFilter
   foodEntries?: Prisma.FoodEntryListRelationFilter
   aiAnalysis?: Prisma.XOR<Prisma.AiAnalysisNullableScalarRelationFilter, Prisma.AiAnalysisWhereInput> | null
@@ -196,6 +202,7 @@ export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibleRoutes?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -208,12 +215,14 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  visibleRoutes?: Prisma.JsonNullableWithAggregatesFilter<"User">
 }
 
 export type UserCreateInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
   foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
@@ -223,6 +232,7 @@ export type UserUncheckedCreateInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
   foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
@@ -232,6 +242,7 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
   foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
@@ -241,6 +252,7 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
   foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
@@ -250,24 +262,28 @@ export type UserCreateManyInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  visibleRoutes?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -341,6 +357,7 @@ export type UserCreateWithoutScheduleEntriesInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
 }
@@ -349,6 +366,7 @@ export type UserUncheckedCreateWithoutScheduleEntriesInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
 }
@@ -373,6 +391,7 @@ export type UserUpdateWithoutScheduleEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
 }
@@ -381,6 +400,7 @@ export type UserUncheckedUpdateWithoutScheduleEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -389,6 +409,7 @@ export type UserCreateWithoutFoodEntriesInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisCreateNestedOneWithoutUserInput
 }
@@ -397,6 +418,7 @@ export type UserUncheckedCreateWithoutFoodEntriesInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedCreateNestedOneWithoutUserInput
 }
@@ -421,6 +443,7 @@ export type UserUpdateWithoutFoodEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUpdateOneWithoutUserNestedInput
 }
@@ -429,6 +452,7 @@ export type UserUncheckedUpdateWithoutFoodEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
   aiAnalysis?: Prisma.AiAnalysisUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -437,6 +461,7 @@ export type UserCreateWithoutAiAnalysisInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryCreateNestedManyWithoutUserInput
   foodEntries?: Prisma.FoodEntryCreateNestedManyWithoutUserInput
 }
@@ -445,6 +470,7 @@ export type UserUncheckedCreateWithoutAiAnalysisInput = {
   id: string
   email: string
   name?: string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedCreateNestedManyWithoutUserInput
   foodEntries?: Prisma.FoodEntryUncheckedCreateNestedManyWithoutUserInput
 }
@@ -469,6 +495,7 @@ export type UserUpdateWithoutAiAnalysisInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUpdateManyWithoutUserNestedInput
   foodEntries?: Prisma.FoodEntryUpdateManyWithoutUserNestedInput
 }
@@ -477,6 +504,7 @@ export type UserUncheckedUpdateWithoutAiAnalysisInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibleRoutes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduleEntries?: Prisma.ScheduleEntryUncheckedUpdateManyWithoutUserNestedInput
   foodEntries?: Prisma.FoodEntryUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -525,6 +553,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   email?: boolean
   name?: boolean
+  visibleRoutes?: boolean
   scheduleEntries?: boolean | Prisma.User$scheduleEntriesArgs<ExtArgs>
   foodEntries?: boolean | Prisma.User$foodEntriesArgs<ExtArgs>
   aiAnalysis?: boolean | Prisma.User$aiAnalysisArgs<ExtArgs>
@@ -535,21 +564,24 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   name?: boolean
+  visibleRoutes?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   name?: boolean
+  visibleRoutes?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   name?: boolean
+  visibleRoutes?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "visibleRoutes", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   scheduleEntries?: boolean | Prisma.User$scheduleEntriesArgs<ExtArgs>
   foodEntries?: boolean | Prisma.User$foodEntriesArgs<ExtArgs>
@@ -570,6 +602,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     email: string
     name: string | null
+    visibleRoutes: runtime.JsonValue | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -999,6 +1032,7 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly visibleRoutes: Prisma.FieldRef<"User", 'Json'>
 }
     
 
