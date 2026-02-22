@@ -16,8 +16,8 @@ export async function getVisibleRoutes(): Promise<string[]> {
     where: { id: userId },
     select: { visibleRoutes: true },
   });
-  if (!user || user.visibleRoutes === null) return [...DEFAULT_ROUTES];
-  return user.visibleRoutes as string[];
+  if (user?.visibleRoutes === null) return [...DEFAULT_ROUTES];
+  return user?.visibleRoutes as string[];
 }
 
 export async function updateVisibleRoutes(
