@@ -63,7 +63,7 @@
       "The Settings tab is visually highlighted when the current pathname is '/settings'",
       "The Settings tab is not highlighted on any other route (/, /food-diary, /ai-overview)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "navigation",
@@ -74,7 +74,7 @@
       "The Settings tab is rendered regardless of the visibleRoutes value",
       "Passing an empty array for visibleRoutes still renders the Settings tab alone"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "layout",
@@ -85,6 +85,6 @@
       "The root layout renders TabBarServer instead of TabBar directly",
       "TabBar receives visibleRoutes synchronously on first render so there is no layout shift (CLS) from a client-side fetch"
     ],
-    "passes": false
+    "passes": true
   }
 ]

@@ -5,7 +5,7 @@ import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "~/components/ui/sonner";
 import { ThemeProvider } from "~/components/layout/theme-provider";
-import { TabBar } from "~/components/layout/tab-bar";
+import { TabBarServer } from "~/components/layout/tab-bar-server";
 import { PwaRegister } from "~/components/pwa-register";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <body className="bg-background min-h-dvh font-sans">
           <ThemeProvider>
             <main className="mx-auto w-full max-w-sm pb-16">{children}</main>
-            <TabBar />
+            <TabBarServer />
             <Toaster position="bottom-center" />
             <PwaRegister />
           </ThemeProvider>
