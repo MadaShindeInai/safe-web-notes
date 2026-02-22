@@ -12,9 +12,12 @@ const SettingsPage = async () => {
 
   return (
     <div className="p-4 pb-20">
-      <h1 className="mb-6 text-xl font-semibold">Settings</h1>
-      <div className="mb-6">
-        <UserButton showName />
+      <h1 className="text-wrap-balance mb-6 text-xl font-semibold">Settings</h1>
+      <div className="mb-6 flex justify-end">
+        <UserButton
+          showName
+          appearance={{ variables: { colorText: "#ffffff" } }}
+        />
       </div>
       <RouteToggleForm initialRoutes={visibleRoutes} />
     </div>

@@ -41,21 +41,23 @@ export const RouteToggleForm = ({ initialRoutes }: Props) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <p className="text-sm font-medium">Visible tabs</p>
-      {KNOWN_ROUTES.map((route) => (
-        <label key={route} className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={selected.includes(route)}
-            onChange={() => toggle(route)}
-            disabled={isPending}
-            className="size-4"
-          />
-          <span className="text-sm">{ROUTE_LABELS[route]}</span>
-        </label>
-      ))}
+      <h2 className="text-sm font-medium">Visible Tabs</h2>
+      <div className="grid grid-cols-2 gap-3">
+        {KNOWN_ROUTES.map((route) => (
+          <label key={route} className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={selected.includes(route)}
+              onChange={() => toggle(route)}
+              disabled={isPending}
+              className="size-4 focus-visible:ring-2 focus-visible:ring-offset-2"
+            />
+            <span className="text-sm">{ROUTE_LABELS[route]}</span>
+          </label>
+        ))}
+      </div>
       {error && <p className="text-destructive text-sm">{error}</p>}
-      <Button type="submit" disabled={isPending} size="sm">
+      <Button type="submit" disabled={isPending} className="w-full">
         {isPending ? "Saving…" : "Save"}
       </Button>
     </form>
